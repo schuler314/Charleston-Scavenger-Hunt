@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lowcountry Recon: 30 Charleston Family Scavenger Hunts</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- QRCode.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Poppins', 'sans-serif'],
+          },
+          colors: {
+            lowcountry: {
+              navy: '#0f2942',
+              teal: '#0d9488',
+              sand: '#f8f5f0',
+              marsh: '#2d6a4f',
+              coral: '#e07a5f',
+              gold: '#d97706'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #f8f5f0;
+      color: #0f2942;
+    }
+
+    /* Hide scrollbar for horizontal pill bar on mobile */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Strictly formatted Print / PDF Stylesheet for 8.5x11" paper */
+    @media print {
+      @page {
+        size: letter portrait;
+        margin: 0.5in;
+      }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11pt;
+        line-height: 1.45;
+        overflow: visible !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      #detail-modal {
+        position: static !important;
+        background: transparent !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        display: block !important;
+      }
+      #detail-modal-card {
+        box-shadow: none !important;
+        border: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .print-border {
+        border: 1.5px solid #000000 !important;
+        background: transparent !important;
+      }
+      .print-checkbox {
+        width: 18px !important;
+        height: 18px !important;
+        border: 2px solid #000000 !important;
+        display: inline-block !important;
+        margin-right: 10px !important;
+        border-radius: 3px !important;
+        flex-shrink: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-teal-600 selection:text-white">
+
+  <!-- ================= TOP HERO HEADER (NO-PRINT) ================= -->
+  <header class="bg-lowcountry-navy text-white no-print border-b-4 border-teal-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        
+        <!-- Brand & Basecamp Info -->
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/20 border border-teal-400/40 text-teal-200 text-xs font-semibold uppercase tracking-wider mb-2">
+            <span>🧭 Charleston & Mt. Pleasant Field Missions</span>
+            <span class="text-teal-400">•</span>
+            <span id="total-hunts-badge">30 Active Hunts</span>
+          </div>
+          <h1 class="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            Lowcountry Recon: Family Scavenger Hunts
+          </h1>
+          <p class="text-slate-300 text-sm mt-1">
+            Basecamp: <span class="font-semibold text-white">Hyatt Place Mount Pleasant Towne Centre</span> (1600 Palmetto Grande Dr, Mt. Pleasant, SC)
+          </p>
+        </div>
+
+        <!-- Primary Action Buttons (Minimum 44x44px tap targets) -->
+        <div class="flex flex-wrap items-center gap-2.5">
+          <!-- Share Location & Sort Button -->
+          <button id="btn-share-location" onclick="requestUserLocation()" 
+            class="min-h-[44px] px-4 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 active:bg-teal-600 text-slate-950 font-semibold text-sm flex items-center gap-2 shadow-sm transition">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span id="location-btn-text">Share Location & Sort</span>
+          </button>
+
+          <!-- Use Hotel Location Fallback Button -->
+          <button onclick="useHotelLocation()" 
+            title="Calculate distances from Hyatt Place Mount Pleasant Towne Centre (32.8335, -79.8256)"
+            class="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-600 font-medium text-sm flex items-center gap-2 transition">
+            <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+            <span>Use Hotel Location</span>
+          </button>
+
+          <!-- Share App to Phone (QR) Button -->
+          <button onclick="openQrModal()" 
+            class="min-h-[44px] px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-sm flex items-center gap-2 shadow-sm transition">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+            </svg>
+            <span>Share App to Phone (QR)</span>
+          </button>
+
+          <!-- JSON Batch Importer / Exporter Button -->
+          <button onclick="openJsonModal()" 
+            class="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 font-medium text-sm flex items-center gap-2 transition">
+            <svg class="w-4 h-4 text-teal-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+            </svg>
+            <span>JSON Data</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Location Status Banner -->
+      <div id="location-status-banner" class="hidden mt-4 p-3 rounded-xl bg-slate-800/90 border border-slate-600 text-sm flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <span id="location-status-icon" class="text-lg">📍</span>
+          <span id="location-status-msg" class="text-slate-200">Calculating distances...</span>
+        </div>
+        <button onclick="useHotelLocation()" class="min-h-[38px] px-3 py-1.5 rounded-lg bg-teal-500/20 border border-teal-400/40 text-teal-300 hover:bg-teal-500/30 text-xs font-semibold">
+          Reset to Hyatt Place Hotel Coordinates
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= STICKY SEARCH & FILTER BAR (NO-PRINT) ================= -->
+  <section class="sticky top-0 z-30 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      
+      <!-- Row 1: Search Input + 4 Filter/Sort Dropdowns -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2.5 items-center">
+        
+        <!-- Search Input (4 cols on desktop) -->
+        <div class="relative lg:col-span-4">
+          <svg class="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <input id="search-input" type="text" oninput="applyFilters()" 
+            placeholder="Search 30 hunts (dolphin, fort, pirate, shark)..." 
+            class="w-full min-h-[44px] pl-10 pr-9 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition" />
+          <button id="clear-search-btn" onclick="clearSearch()" aria-label="Clear search" class="hidden min-h-[36px] min-w-[36px] absolute right-1.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600">
+            ✕
+          </button>
+        </div>
+
+        <!-- Theme Select (2 cols) -->
+        <div class="lg:col-span-2">
+          <select id="filter-theme" onchange="applyFilters()" aria-label="Filter by Theme"
+            class="w-full min-h-[44px] px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <option value="All">All Themes</option>
+            <option value="Historical">🏛️ Historical</option>
+            <option value="Nature">🐬 Nature</option>
+            <option value="Photo Ops">📸 Photo Ops</option>
+            <option value="Military">⚓ Military</option>
+            <option value="Architecture">🧱 Architecture</option>
+          </select>
+        </div>
+
+        <!-- Max Time Select (2 cols) -->
+        <div class="lg:col-span-2">
+          <select id="filter-time" onchange="applyFilters()" aria-label="Filter by Max Time"
+            class="w-full min-h-[44px] px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <option value="All">Max Time: All</option>
+            <option value="45">⏱️ &lt;= 45 min</option>
+            <option value="60">⏱️ &lt;= 60 min</option>
+            <option value="90">⏱️ &lt;= 90 min</option>
+          </select>
+        </div>
+
+        <!-- Cost Select (2 cols) -->
+        <div class="lg:col-span-2">
+          <select id="filter-cost" onchange="applyFilters()" aria-label="Filter by Cost"
+            class="w-full min-h-[44px] px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <option value="All">Cost: All</option>
+            <option value="Free">💵 Free</option>
+            <option value="Under $20">🎟️ Under $20</option>
+            <option value="Paid Admission Required">🎫 Paid Admission Required</option>
+          </select>
+        </div>
+
+        <!-- Sort Select (2 cols) -->
+        <div class="lg:col-span-2">
+          <select id="sort-order" onchange="applyFilters()" aria-label="Sort Hunts"
+            class="w-full min-h-[44px] px-3 py-2 bg-teal-50 border border-teal-300 rounded-xl text-sm font-semibold text-teal-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <option value="default">Sort: Default ID</option>
+            <option value="distance">Sort: Distance (Closest First)</option>
+            <option value="time_asc">Sort: Time (Shortest First)</option>
+            <option value="progress">Sort: Completed Progress</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Row 2: Quick Theme Filter Pills (44px min height for mobile touch) + Global Score -->
+      <div class="flex items-center justify-between gap-4 mt-2.5 pt-2 border-t border-slate-100">
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+          <button onclick="setQuickTheme('All')" data-theme-pill="All" class="theme-pill min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-lowcountry-navy text-white">
+            All 30 Hunts
+          </button>
+          <button onclick="setQuickTheme('Historical')" data-theme-pill="Historical" class="theme-pill min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+            🏛️ Historical
+          </button>
+          <button onclick="setQuickTheme('Nature')" data-theme-pill="Nature" class="theme-pill min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+            🐬 Nature
+          </button>
+          <button onclick="setQuickTheme('Photo Ops')" data-theme-pill="Photo Ops" class="theme-pill min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+            📸 Photo Ops
+          </button>
+          <button onclick="setQuickTheme('Military')" data-theme-pill="Military" class="theme-pill min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+            ⚓ Military
+          </button>
+          <button onclick="setQuickTheme('Architecture')" data-theme-pill="Architecture" class="theme-pill min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+            🧱 Architecture
+          </button>
+        </div>
+
+        <!-- Family Clues Score Counter -->
+        <div class="hidden md:flex items-center gap-2 shrink-0 text-xs font-semibold text-slate-700 bg-amber-50 border border-amber-200 px-3.5 py-2 rounded-xl">
+          <span>🏆 Family Clues Found:</span>
+          <span id="global-clues-progress" class="text-teal-700 font-bold">0 / 120</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= MAIN DASHBOARD GRID (NO-PRINT) ================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 no-print">
+    
+    <!-- Results Subheader Bar -->
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+      <p id="results-count-label" class="text-sm font-semibold text-slate-700">
+        Showing 30 of 30 scavenger hunts
+      </p>
+      <p id="reference-point-label" class="text-xs font-medium text-slate-500">
+        📍 Distances pre-calculated from Hyatt Place Mount Pleasant Towne Centre (tap "Share Location & Sort" for live GPS)
+      </p>
+    </div>
+
+    <!-- Responsive CSS Grid: 1 col mobile, 2 tablet, 3 laptop, 4 wide desktop -->
+    <div id="hunts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <!-- Dynamically populated by JS -->
+    </div>
+
+    <!-- Empty Filter State -->
+    <div id="empty-state" class="hidden bg-white rounded-2xl border border-slate-200 p-10 text-center my-8 max-w-md mx-auto">
+      <div class="text-4xl mb-3">🕵️‍♂️</div>
+      <h3 class="font-display text-lg font-bold text-slate-800">No Scavenger Hunts Match Your Filters</h3>
+      <p class="text-slate-500 text-sm mt-1 mb-5">Try clearing your search term or selecting "All Themes" and "Cost: All".</p>
+      <button onclick="resetAllFilters()" class="min-h-[44px] px-5 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-semibold rounded-xl text-sm transition">
+        Reset All Filters
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ================= DETAIL VIEW & PRINTABLE PDF MODAL ================= -->
+  <div id="detail-modal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm overflow-y-auto p-3 sm:p-6 flex items-start justify-center">
+    <div id="detail-modal-card" class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-3xl w-full my-auto overflow-hidden transition-all">
+      
+      <!-- Modal Top Bar (Hidden when printing) -->
+      <div class="bg-lowcountry-navy text-white px-5 py-4 flex items-center justify-between gap-3 no-print">
+        <div class="flex items-center flex-wrap gap-2">
+          <span id="modal-id-badge" class="px-2.5 py-1 rounded-md bg-teal-500/20 border border-teal-400/40 text-teal-300 font-mono text-xs font-bold">
+            HUNT_01
+          </span>
+          <span id="modal-theme-badge" class="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold">
+            Military
+          </span>
+        </div>
+
+        <button onclick="closeDetailModal()" aria-label="Close Hunt Details"
+          class="min-h-[44px] min-w-[44px] rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white font-bold text-lg transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- Printable 8.5x11" Header Banner (Only visible on Print / PDF) -->
+      <div class="hidden print-only border-b-2 border-black pb-3 mb-4">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-widest">LOWCOUNTRY RECON • CHARLESTON FAMILY SCAVENGER HUNT</p>
+            <h1 id="print-title" class="text-2xl font-bold mt-0.5">Hunt Title</h1>
+          </div>
+          <div class="text-right text-xs shrink-0">
+            <p><strong>Basecamp:</strong> Hyatt Place Mt. Pleasant</p>
+            <p id="print-meta-line" class="font-semibold mt-0.5">Theme • 45 Mins • Free</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Content Body -->
+      <div class="p-5 sm:p-7">
+        
+        <!-- Screen Title -->
+        <div class="no-print">
+          <h2 id="modal-title" class="font-display text-2xl sm:text-3xl font-bold text-slate-900">
+            Hunt Title
+          </h2>
+        </div>
+
+        <!-- Metadata Pills Row -->
+        <div class="flex flex-wrap items-center gap-2.5 mt-3 no-print">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold">
+            <span>⏱️ Est. Time:</span>
+            <span id="modal-time" class="text-slate-900 font-bold">45 mins</span>
+          </div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold">
+            <span>💵 Cost:</span>
+            <span id="modal-cost" class="text-slate-900 font-bold">Free</span>
+          </div>
+          <div id="modal-distance-pill" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-50 border border-teal-200 text-teal-800 text-xs font-semibold">
+            <span>📍 Distance:</span>
+            <span id="modal-distance" class="font-bold">3.2 mi away</span>
+          </div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-xs font-mono">
+            <span id="modal-coords">32.7904, -79.9082</span>
+          </div>
+        </div>
+
+        <!-- Mission Briefing Summary Box -->
+        <div class="mt-4 p-4 rounded-xl bg-amber-50/80 border border-amber-200 print-border">
+          <div class="flex items-center justify-between gap-2 mb-1.5">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-900">📋 Mission Briefing</span>
+            <button onclick="speakMissionBriefing()" class="no-print min-h-[44px] px-3.5 py-1.5 rounded-xl bg-amber-200/80 hover:bg-amber-300 text-amber-950 text-xs font-semibold flex items-center gap-1.5 transition">
+              <span>🔊 Audio Briefing</span>
+            </button>
+          </div>
+          <p id="modal-summary" class="text-slate-800 text-sm sm:text-base leading-relaxed font-medium">
+            Summary text goes here.
+          </p>
+        </div>
+
+        <!-- Primary Action Bar: Google Maps + Create Printable PDF (Hidden when printing) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5 no-print">
+          <!-- Prominent Google Maps Hyperlink -->
+          <a id="modal-maps-link" href="#" target="_blank" rel="noopener noreferrer"
+            class="min-h-[48px] px-5 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold text-sm flex items-center justify-center gap-2.5 shadow-sm transition">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+            </svg>
+            <span>Open Start Point in Google Maps</span>
+          </a>
+
+          <!-- Create Printable PDF Button -->
+          <button onclick="printCurrentHunt()"
+            class="min-h-[48px] px-5 py-3 rounded-xl bg-lowcountry-navy hover:bg-slate-800 text-white font-semibold text-sm flex items-center justify-center gap-2.5 shadow-sm transition">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            </svg>
+            <span>Create Printable PDF</span>
+          </button>
+        </div>
+
+        <!-- Print-Only Starting Location Info -->
+        <div class="hidden print-only mt-3 mb-4 p-3 border border-black rounded text-xs">
+          <p><strong>Starting GPS Coordinates:</strong> <span id="print-coords"></span> <span id="print-distance-note" class="ml-2"></span></p>
+          <p class="mt-1"><strong>Google Maps Start URL:</strong> <span id="print-maps-url" class="underline font-mono"></span></p>
+        </div>
+
+        <!-- Clues Progress Bar & Checklist Header -->
+        <div class="mt-6">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-display text-lg font-bold text-slate-900">
+              🔎 Field Clues & Active Objectives
+            </h3>
+            <div class="flex items-center gap-3 no-print">
+              <span id="modal-clue-progress-text" class="text-xs font-bold text-teal-800 bg-teal-50 border border-teal-200 px-2.5 py-1 rounded-md">
+                0 of 4 Completed
+              </span>
+              <button onclick="resetCurrentHuntProgress()" class="min-h-[44px] px-2 text-xs font-medium text-slate-500 hover:text-rose-600 underline">
+                Reset Hunt
+              </button>
+            </div>
+          </div>
+
+          <!-- Progress Bar Inside Detail View -->
+          <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden mb-4 no-print">
+            <div id="modal-progress-bar" class="h-full bg-teal-500 transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Interactive Clues List -->
+        <div id="modal-clues-list" class="space-y-3">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Print-Only Field Notes & Family Score Box -->
+        <div class="hidden print-only mt-6 pt-4 border-t-2 border-black">
+          <div class="grid grid-cols-3 gap-4">
+            <div class="col-span-2 border border-black p-3 rounded h-32">
+              <p class="text-xs font-bold uppercase mb-1">📝 Field Agent Notes / Sketch / Best Discovery:</p>
+            </div>
+            <div class="border border-black p-3 rounded h-32 flex flex-col justify-between">
+              <p class="text-xs font-bold uppercase">🏆 Mission Log</p>
+              <p class="text-xs">Date: ______________</p>
+              <p class="text-xs">Time: ______________</p>
+              <p class="text-xs">Clues Found: ___ / 4</p>
+              <p class="text-xs">Fun Rating: ☆☆☆☆☆</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer (No-Print) -->
+      <div class="bg-slate-50 px-5 py-3.5 border-t border-slate-200 flex items-center justify-between no-print">
+        <span class="text-xs text-slate-500">Tap any clue above to check it off. Saved automatically on this device.</span>
+        <button onclick="closeDetailModal()" class="min-h-[44px] px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold text-sm transition">
+          Done
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= QR CODE SHARING MODAL (NO-PRINT) ================= -->
+  <div id="qr-modal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm p-4 flex items-center justify-center no-print">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 text-center relative">
+      <button onclick="closeQrModal()" aria-label="Close QR Modal"
+        class="min-h-[44px] min-w-[44px] absolute top-3 right-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 font-bold">
+        ✕
+      </button>
+
+      <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mx-auto mb-3 text-2xl">
+        📱
+      </div>
+      <h3 class="font-display text-xl font-bold text-slate-900">Share App to Your Phone</h3>
+      <p class="text-slate-600 text-xs sm:text-sm mt-1">
+        Scan this QR code with your phone camera to open the scavenger hunt dashboard on mobile while exploring Charleston.
+      </p>
+
+      <!-- QR Code Container -->
+      <div class="my-5 flex justify-center">
+        <div id="qrcode-container" class="p-4 bg-white border-2 border-slate-200 rounded-2xl shadow-inner inline-block min-h-[220px] min-w-[220px] flex items-center justify-center"></div>
+      </div>
+
+      <!-- Editable URL Input + Copy Link Button -->
+      <div class="text-left">
+        <label for="qr-url-input" class="block text-xs font-semibold text-slate-600 mb-1">
+          App URL (edit if hosted on GitHub Pages / custom link):
+        </label>
+        <div class="flex gap-2">
+          <input id="qr-url-input" type="text" oninput="updateQrCodeFromInput()"
+            class="flex-1 min-h-[44px] px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-mono text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500" />
+          <button onclick="copyAppUrl()" class="min-h-[44px] px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold rounded-xl shrink-0 transition">
+            Copy Link
+          </button>
+        </div>
+      </div>
+
+      <button onclick="closeQrModal()" class="mt-5 w-full min-h-[44px] py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm transition">
+        Close Window
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= JSON BATCH IMPORT / EXPORT MODAL (NO-PRINT) ================= -->
+  <div id="json-modal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm p-4 overflow-y-auto flex items-center justify-center no-print">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-2xl w-full p-6 relative my-auto">
+      <button onclick="closeJsonModal()" aria-label="Close JSON Modal"
+        class="min-h-[44px] min-w-[44px] absolute top-3 right-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 font-bold">
+        ✕
+      </button>
+
+      <h3 class="font-display text-xl font-bold text-slate-900">📦 Hunt Dataset Manager (JSON)</h3>
+      <p class="text-slate-600 text-xs sm:text-sm mt-1">
+        All 30 Charleston & Mount Pleasant hunts are pre-loaded. You can inspect or export the raw JSON below, or paste additional custom hunts to merge into `localStorage`.
+      </p>
+
+      <div class="mt-4">
+        <div class="flex items-center justify-between mb-1.5">
+          <label for="json-textarea" class="text-xs font-bold uppercase tracking-wider text-slate-600">
+            JSON Array (<span id="json-count-label">30</span> Hunts)
+          </label>
+          <div class="flex gap-2">
+            <button onclick="loadCurrentJsonIntoTextarea()" class="min-h-[36px] px-2 text-xs font-semibold text-teal-700 hover:underline">
+              Reload Current JSON
+            </button>
+            <span class="text-slate-300 self-center">|</span>
+            <button onclick="copyJsonTextarea()" class="min-h-[36px] px-2 text-xs font-semibold text-amber-700 hover:underline">
+              Copy JSON
+            </button>
+          </div>
+        </div>
+        <textarea id="json-textarea" rows="10"
+          placeholder='Paste a JSON array of hunts here...'
+          class="w-full p-3 bg-slate-900 text-teal-300 font-mono text-xs rounded-xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
+      </div>
+
+      <div id="json-feedback" class="hidden mt-2 p-2.5 rounded-lg text-xs font-semibold"></div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 mt-4">
+        <button onclick="resetToDefaultHunts()" class="min-h-[44px] px-4 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold transition">
+          Reset to Default 30 Hunts
+        </button>
+        <div class="flex gap-2">
+          <button onclick="closeJsonModal()" class="min-h-[44px] px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold">
+            Cancel
+          </button>
+          <button onclick="importJsonBatch()" class="min-h-[44px] px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold shadow-sm">
+            Merge / Save JSON
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg border border-slate-700 text-sm font-medium flex items-center gap-2.5 no-print">
+    <span id="toast-icon">✅</span>
+    <span id="toast-msg">Action completed</span>
+  </div>
+
+  <!-- ================= APPLICATION JAVASCRIPT ================= -->
+  <script>
+    // Basecamp Reference: Hyatt Place Mount Pleasant Towne Centre (1600 Palmetto Grande Drive, Mount Pleasant, SC 29464)
+    const HOTEL_BASECAMP = {
+      name: "Hyatt Place Mount Pleasant Towne Centre",
+      lat: 32.8335,
+      lng: -79.8256
+    };
+
+    // ================= PHASE 2: ALL 30 PRE-LOADED SCAVENGER HUNTS =================
+    const DEFAULT_HUNTS_DATA = [
+      {
+        "id": "hunt_01",
+        "title": "USS Yorktown Flight Deck & Cold War Sub Recon",
+        "theme": "Military",
+        "summary": "Board 'The Fighting Lady' aircraft carrier at Patriots Point in Mount Pleasant to track down supersonic fighter jets, anti-aircraft batteries, and Apollo space history.",
+        "est_time_minutes": 90,
+        "cost_category": "Paid Admission Required",
+        "start_lat": 32.7904,
+        "start_lng": -79.9082,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7904,-79.9082",
+        "clues": [
+          "Head up to the open Flight Deck and find the F-14 Tomcat fighter jet—inspect how its variable-sweep wings fold tightly back for aircraft carrier storage.",
+          "Locate the Apollo 8 recovery milestone display inside the hangar bay honoring the astronauts rescued in the Pacific by the USS Yorktown in 1968.",
+          "Climb into a quad-mount 40mm Bofors anti-aircraft gun tub along the catwalk and test out the steel gunner seats.",
+          "Cross the pier to the destroyer USS Laffey ('The Ship That Would Not Die') and find the plaque marking where the bridge survived six kamikaze attacks off Okinawa."
+        ]
+      },
+      {
+        "id": "hunt_02",
+        "title": "Fort Moultrie Underground Bunkers & Osceola's Watch",
+        "theme": "Military",
+        "summary": "Infiltrate 200 years of coastal defense history on Sullivan's Island, from Revolutionary War spongy palmetto logs to shadowy WWII torpedo control rooms.",
+        "est_time_minutes": 60,
+        "cost_category": "Under $20",
+        "start_lat": 32.7592,
+        "start_lng": -79.8576,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7592,-79.8576",
+        "clues": [
+          "Just outside the main entrance sally port, locate the iron-fenced gravesite and marble stone of the famous Seminole leader Chief Osceola.",
+          "Find the replica section of spongy palmetto log ramparts that bounced British cannonballs off the fort in June 1776.",
+          "Venture inside the underground WWII Harbor Entrance Control Post (HECP) bunker and find the plotting rooms used to watch for German U-boats.",
+          "Stand on the grassy upper parapet facing the harbor and frame Fort Sumter in the distance directly over the barrel of a massive black Civil War Rodman cannon."
+        ]
+      },
+      {
+        "id": "hunt_03",
+        "title": "Shem Creek Dolphin, Shrimp Boat & Pelicans Safari",
+        "theme": "Nature",
+        "summary": "Patrol the 2,200-foot wooden boardwalk over Mount Pleasant's historic shrimping creek to spot wild Atlantic bottlenose dolphins, diving pelicans, and fiddler crabs.",
+        "est_time_minutes": 45,
+        "cost_category": "Free",
+        "start_lat": 32.7925,
+        "start_lng": -79.8820,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7925,-79.8820",
+        "clues": [
+          "Find a docked wooden or steel shrimp trawler with its tall 'outrigger' net arms folded up like giant insect wings and read the boat's name on the hull.",
+          "Scan the tidal channel where Shem Creek meets the harbor to spot a wild Atlantic bottlenose dolphin surfacing or a Brown Pelican diving.",
+          "Peer over the boardwalk railing into the dark pluff mud at low tide to spot a male fiddler crab waving his single oversized claw.",
+          "Count at least 5 brightly painted crab trap buoys hanging on a dock shed or stacked on the back deck of a working local boat."
+        ]
+      },
+      {
+        "id": "hunt_04",
+        "title": "White Point Garden Cannons & Pirate Gallows Quest",
+        "theme": "Historical",
+        "summary": "Explore the southern tip of the Charleston peninsula beneath twisting live oaks surrounded by massive Civil War mortars and 1718 pirate lore.",
+        "est_time_minutes": 45,
+        "cost_category": "Free",
+        "start_lat": 32.7697,
+        "start_lng": -79.9296,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7697,-79.9296",
+        "clues": [
+          "Locate the granite monument near the northeast corner of the park dedicated to 'Gentleman Pirate' Stede Bonnet and his crew hanged here in 1718.",
+          "Find the squat, cauldron-shaped 13-inch Union seacoast mortar and take a forced-perspective photo making it look like your 9-10 year old is lifting a cannonball.",
+          "Spot the massive 11-inch Columbiad cannon mounted on an iron carriage aimed directly across the water toward Fort Sumter.",
+          "Find the raised bandstand rotunda in the center of the park and count the white columns supporting its dome."
+        ]
+      },
+      {
+        "id": "hunt_05",
+        "title": "Waterfront Park Pineapple & Secret Cobblestone Alleys",
+        "theme": "Photo Ops",
+        "summary": "Weave from the harbor swings of Waterfront Park into Charleston's oldest ballast-stone lanes for creative family photo challenges.",
+        "est_time_minutes": 45,
+        "cost_category": "Free",
+        "start_lat": 32.7785,
+        "start_lng": -79.9252,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7785,-79.9252",
+        "clues": [
+          "Stand at the iconic Pineapple Fountain and snap a forced-perspective photo where someone appears to hold the top of the green pineapple in the palm of their hand.",
+          "Claim one of the covered wooden family swings on the Waterfront Pier and spot a container ship or sailboat crossing the Cooper River.",
+          "Walk one block inland onto Chalmers Street and touch the rounded river rocks ('ballast stones') dropped by 1700s tall ships.",
+          "Find the narrow coral-stone 'Pink House' at 17 Chalmers Street (built c. 1712) and compare its width to your family standing arm-in-arm."
+        ]
+      },
+      {
+        "id": "hunt_06",
+        "title": "Charles Pinckney Historic Site & Snee Farm Trail",
+        "theme": "Historical",
+        "summary": "Located just 2 minutes down Long Point Road from Hyatt Place! Explore the preserved 28-acre coastal farm of Founding Father and Constitution signer Charles Pinckney.",
+        "est_time_minutes": 40,
+        "cost_category": "Free",
+        "start_lat": 32.8427,
+        "start_lng": -79.8245,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8427,-79.8245",
+        "clues": [
+          "Examine the 1828 coastal cottage farmhouse painted pale yellow and count how many brick chimneys rise from the roof.",
+          "Walk the shaded 0.5-mile Snee Farm nature trail and find a wooden wayside exhibit explaining how tidal rice and indigo were grown here.",
+          "Locate an archaeological brick outline or marker showing where original 18th-century outbuildings and kitchen structures once stood.",
+          "Look high into the Spanish moss hanging from the grand live oaks along the trail and spot a squirrel dreys (nest) or woodpeckers."
+        ]
+      },
+      {
+        "id": "hunt_07",
+        "title": "Pitt Street Bridge & Old Village Hunley Causeway",
+        "theme": "Photo Ops",
+        "summary": "Stroll a palm-lined former trolley bridge jutting into Charleston Harbor in Mount Pleasant's historic Old Village for panoramic Ravenel Bridge and Fort Sumter views.",
+        "est_time_minutes": 45,
+        "cost_category": "Free",
+        "start_lat": 32.7753,
+        "start_lng": -79.8732,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7753,-79.8732",
+        "clues": [
+          "Before stepping onto the grass causeway, stop at the Old Village pharmacy building on Pitt Street where an old-fashioned soda fountain has served milkshakes for generations.",
+          "Walk out onto the palmetto-lined Pickett Bridge recreation trail and find the remnant wooden pilings of the 1898 electric streetcar bridge sticking out of the water.",
+          "Locate the bronze historical plaque near the water's edge describing the Civil War submarine H.L. Hunley's training operations in this cove.",
+          "Take a family silhouette photo at the end of the concrete pier with both the Ravenel Bridge diamonds and Fort Sumter visible across the water."
+        ]
+      },
+      {
+        "id": "hunt_08",
+        "title": "Philip Simmons Wrought-Iron Creature Safari",
+        "theme": "Architecture",
+        "summary": "Embark on an architectural 'I-Spy' treasure hunt through Downtown Charleston to spot famous hand-forged iron animals crafted by master blacksmith Philip Simmons.",
+        "est_time_minutes": 60,
+        "cost_category": "Free",
+        "start_lat": 32.7765,
+        "start_lng": -79.9308,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7765,-79.9308",
+        "clues": [
+          "At 9 Stoll's Alley (or 292 East Bay St), search the decorative black wrought-iron driveway gates to spot a coiled iron rattlesnake and an iron fish.",
+          "Visit the Philip Simmons commemorative garden near St. John's Reformed Episcopal Church on Anson Street and find the 'Heart Gate' design.",
+          "At 32 Legare Street, track down the legendary 'Sword Gates' where two horizontal iron Roman broadswords cross at the center of the gate.",
+          "Spot at least two historic homes along Meeting or Church Street that still have an iron 'boot scraper' bolted to the bottom stone step."
+        ]
+      },
+      {
+        "id": "hunt_09",
+        "title": "Isle of Palms Pier & Beachcomber Treasure Hunt",
+        "theme": "Nature",
+        "summary": "Head 15 minutes from the hotel to the wide Atlantic beach at Isle of Palms County Park for a coastal shell, sand dollar, and ocean pier reconnaissance.",
+        "est_time_minutes": 60,
+        "cost_category": "Free",
+        "start_lat": 32.7858,
+        "start_lng": -79.7885,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7858,-79.7885",
+        "clues": [
+          "Walk underneath the towering wooden pilings of the Isle of Palms Pier and spot barnacles and green sea lettuce clinging to the posts.",
+          "Search the wet tide line for South Carolina's official state shell—the cylindrical, patterned Lettered Olive—or a spiral whelk shell.",
+          "Spot a tiny, pale-yellow Ghost Crab skittering sideways into a round burrow hole near the base of the protected sand dunes.",
+          "Read the Sea Turtle Nesting conservation sign at the boardwalk entrance and find out which month loggerhead hatchlings emerge."
+        ]
+      },
+      {
+        "id": "hunt_10",
+        "title": "Charles Towne Landing 1670 Ship & Animal Forest",
+        "theme": "Historical",
+        "summary": "Step onto the marsh peninsula where English settlers first landed in 1670, featuring a replica 17th-century sailing ship, cannon earthworks, and native wildlife.",
+        "est_time_minutes": 90,
+        "cost_category": "Paid Admission Required",
+        "start_lat": 32.8062,
+        "start_lng": -79.9863,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8062,-79.9863",
+        "clues": [
+          "Walk down the wharf to board the 'Adventure,' a replica 17th-century two-masted trading ketch, and inspect the wooden steering tiller and cargo hold.",
+          "Count the black iron cannons lined up along the reconstructed wooden palisade wall defending Old Town Creek.",
+          "In the Experimental Crop Garden, locate the bronze statue of the Kiawah leader Chief Shaddoo who aided the early settlers.",
+          "Walk the paved Animal Forest zoo trail to spot native species that lived in Carolina in 1670, including river otters, black bears, and a puma."
+        ]
+      },
+      {
+        "id": "hunt_11",
+        "title": "Mount Pleasant Memorial Waterfront Park & Bridge Underbelly",
+        "theme": "Photo Ops",
+        "summary": "Explore the manicured grounds directly beneath the towering 575-foot diamond towers of the Arthur Ravenel Jr. Bridge and walk out onto the 1,250-foot pier.",
+        "est_time_minutes": 45,
+        "cost_category": "Free",
+        "start_lat": 32.8021,
+        "start_lng": -79.9004,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8021,-79.9004",
+        "clues": [
+          "Stand directly underneath the massive concrete columns of the Ravenel Bridge and take a dramatic upward-angle photo of the stay cables fanning into the sky.",
+          "In the Sweetgrass Cultural Arts Pavilion, find the informative plaques honoring Mount Pleasant's Gullah Geechee sweetgrass basket weavers.",
+          "Visit the Mount Pleasant War Memorial fountain and locate the bronze reliefs representing each branch of the U.S. Armed Forces.",
+          "Walk to the end of the 1,250-foot Cooper River pier and test the giant bridge-themed playground structure near the lawn."
+        ]
+      },
+      {
+        "id": "hunt_12",
+        "title": "Rainbow Row, Earthquake Bolts & Stoll's Alley Secret Passage",
+        "theme": "Architecture",
+        "summary": "Decode Charleston's historic streetscape south of Broad Street by hunting for 1886 earthquake bolts, colonial fire insurance plaques, and hidden brick alleys.",
+        "est_time_minutes": 45,
+        "cost_category": "Free",
+        "start_lat": 32.7766,
+        "start_lng": -79.9272,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7766,-79.9272",
+        "clues": [
+          "Walk the length of Rainbow Row (79–107 East Bay Street), count all 13 pastel row houses, and pick your family's favorite paint color.",
+          "Look up at the second-story brick walls along Tradd and East Bay Streets to spot at least 3 cast-iron 'earthquake bolts' (shaped like stars, circles, or X's) from 1886.",
+          "Duck into narrow brick-paved Stoll's Alley off East Bay Street—it narrows to just a few feet wide between garden walls before opening onto Church Street.",
+          "Spot an oval cast-iron 'Fire Mark' plaque mounted high above a historic front door that once signaled which colonial fire brigade protected the house."
+        ]
+      },
+      {
+        "id": "hunt_13",
+        "title": "Charleston City Market Sweetgrass & History Quest",
+        "theme": "Historical",
+        "summary": "Navigate the four historic open-air sheds of the 1804 Charleston City Market to witness centuries-old sweetgrass basket weaving and architectural guardians.",
+        "est_time_minutes": 60,
+        "cost_category": "Free",
+        "start_lat": 32.7815,
+        "start_lng": -79.9296,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7815,-79.9296",
+        "clues": [
+          "Stand at the grand red-sandstone Market Hall on Meeting Street and look up at the Classical roofline to spot carved stone rams' heads and bull skulls (bucrania).",
+          "Inside the open-air sheds, watch a local Gullah artisan weaving a basket and identify the four natural materials used: sweetgrass, pine needles, bulrush, and palmetto strip.",
+          "Find the historical plaque inside the sheds explaining why giant buzzards (Charleston Eagles) were once protected by law around the old meat market.",
+          "Stop outside a local praline kitchen along Market Street where warm pecan pralines are being scooped onto marble cooling slabs."
+        ]
+      },
+      {
+        "id": "hunt_14",
+        "title": "Palmetto Islands County Park 50-Foot Tower & Marsh Bridges",
+        "theme": "Nature",
+        "summary": "Located just 5 minutes from Hyatt Place Towne Centre! Climb a 50-foot wooden tower above the palmetto canopy and cross suspension bridges over tidal creeks.",
+        "est_time_minutes": 60,
+        "cost_category": "Under $20",
+        "start_lat": 32.8669,
+        "start_lng": -79.8278,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8669,-79.8278",
+        "clues": [
+          "Climb all the way to the top deck of the 50-foot wooden Observation Tower and count the exact number of steps from the ground to the lookout.",
+          "Walk across the bouncy cable suspension bridge leading toward the Big Toy playground and spot mullet fish jumping in the tidal pond below.",
+          "Inspect the trunk of a Sabal Palmetto (SC's state tree) and touch the geometric crisscross 'bootjacks' left behind by old fronds.",
+          "Follow the paved boardwalk out over the salt marsh and find a cluster of Eastern Oyster shells clinging to the mudbank."
+        ]
+      },
+      {
+        "id": "hunt_15",
+        "title": "Morris Island Lighthouse Trail & Folly Beach Shark Tooth Recon",
+        "theme": "Nature",
+        "summary": "Walk the graffiti-covered old road at the north end of Folly Beach to a wild barrier island shoreline overlooking an offshore 1876 brick lighthouse.",
+        "est_time_minutes": 75,
+        "cost_category": "Free",
+        "start_lat": 32.6908,
+        "start_lng": -79.8880,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.6908,-79.8880",
+        "clues": [
+          "Stroll the quarter-mile paved 'art path' covered in colorful local chalk and paint murals leading out to the sand at Lighthouse Inlet Preserve.",
+          "Reach the shoreline and frame a trick photo where someone pinches the distant 161-foot red-and-white striped Morris Island Lighthouse (standing right out in the ocean!).",
+          "Scan the coarse shell beds along the wet high-tide line to hunt for a shiny black fossilized shark tooth.",
+          "Spot shorebirds—like Sanderlings or Willets—running back and forth in sync with the foaming ocean waves."
+        ]
+      },
+      {
+        "id": "hunt_16",
+        "title": "The Ancient Angel Oak Canopy & Limb Counter Quest",
+        "theme": "Photo Ops",
+        "summary": "Stand beneath the jaw-dropping 17,200-square-foot shade canopy of Johns Island's legendary Angel Oak tree, featuring giant limbs that dive underground.",
+        "est_time_minutes": 40,
+        "cost_category": "Free",
+        "start_lat": 32.7176,
+        "start_lng": -80.0805,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7176,-80.0805",
+        "clues": [
+          "Follow the longest horizontal limb of the Angel Oak and find the spot where it plunges completely into the sandy soil before curving back up.",
+          "Look closely at the top of the massive branches to spot bright green 'Resurrection Ferns' growing right on the bark.",
+          "Count how many heavy wooden support posts and steel cables are positioned around the tree to help hold up its multi-ton limbs.",
+          "Stand outside the protective boundary sign and take a forced-perspective photo making it look like your 9-10 year old is holding up a giant branch."
+        ]
+      },
+      {
+        "id": "hunt_17",
+        "title": "H.L. Hunley Submarine Lab & Gold Coin Mystery",
+        "theme": "Military",
+        "summary": "Weekend mission at the Warren Lasch Conservation Center! See the real 1864 hand-cranked submarine recovered from the ocean floor and solve its legendary mysteries.",
+        "est_time_minutes": 60,
+        "cost_category": "Paid Admission Required",
+        "start_lat": 32.8596,
+        "start_lng": -79.9612,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8596,-79.9612",
+        "clues": [
+          "Step inside the full-scale replica cross-section of the Hunley hull and have your family try turning the hand-crank that powered the propeller.",
+          "Find the famous $20 gold coin bent by a Union bullet at the Battle of Shiloh—carried as a lucky charm by Hunley commander Lt. George Dixon.",
+          "Peer through the observation glass into the conservation tank to see the actual 40-foot iron submarine H.L. Hunley raised from the Atlantic in 2000.",
+          "Inspect the forensic facial reconstructions of the eight crewmen and learn how archaeologists figured out where each sailor sat."
+        ]
+      },
+      {
+        "id": "hunt_18",
+        "title": "James Island County Park Climbing Spire & Stono Marsh Dock",
+        "theme": "Nature",
+        "summary": "Explore 643 acres of tidal salt marsh trails, crabbing docks, and one of the tallest outdoor climbing walls in the Southeast.",
+        "est_time_minutes": 60,
+        "cost_category": "Under $20",
+        "start_lat": 32.7351,
+        "start_lng": -79.9647,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7351,-79.9647",
+        "clues": [
+          "Walk past the Outdoor Adventure Center to spot the towering 50-foot textured rock-climbing wall and bouldering cave.",
+          "Head out onto the floating wooden dock over the Stono River tidal creek and check if any blue crabs are clinging to the dock pilings.",
+          "Along the paved lagoon trail, spot a yellow-bellied slider turtle sunning itself on a half-submerged log.",
+          "Cross the wooden marsh footbridge and compare the height of the green Spartina cordgrass to your 9-10 year old's height."
+        ]
+      },
+      {
+        "id": "hunt_19",
+        "title": "French Quarter Pirate Tavern & Powder Magazine Recon",
+        "theme": "Historical",
+        "summary": "Track down South Carolina's oldest surviving public building (1713) with 3-foot-thick brick walls and walk through a legendary duelers' passageway.",
+        "est_time_minutes": 50,
+        "cost_category": "Free",
+        "start_lat": 32.7788,
+        "start_lng": -79.9288,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7788,-79.9288",
+        "clues": [
+          "At 79 Cumberland Street, locate the gables and tiled roof of the 1713 Powder Magazine—built with 32-inch-thick walls to store colonial gunpowder.",
+          "Walk down hidden Philadelphia Alley ('Dueler's Alley') beside St. Philip's Church and read the plaque about 18th-century pistol duels fought here.",
+          "Stand before the towering portico of St. Philip's Church (whose steeple once served as a harbor lighthouse beacon) and notice how Church Street curves right around it.",
+          "Find the wrought-iron balcony and hanging wooden tavern sign outside the historic Dock Street Theatre at Church and Queen Streets."
+        ]
+      },
+      {
+        "id": "hunt_20",
+        "title": "Boone Hall Avenue of Oaks & Historic Brickyard Safari",
+        "theme": "Historical",
+        "summary": "Only 4 minutes from Hyatt Place! Drive beneath a breathtaking three-quarter-mile tunnel of 1743 live oaks and explore historic brick kilns and butterfly pavilions.",
+        "est_time_minutes": 90,
+        "cost_category": "Paid Admission Required",
+        "start_lat": 32.8528,
+        "start_lng": -79.8266,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8528,-79.8266",
+        "clues": [
+          "Marvel at the world-famous Avenue of Oaks—planted in 1743—where two rows of giant live oaks meet overhead for three-quarters of a mile.",
+          "Walk out toward Horlbeck Creek to spot the tall circular brick chimney of the historic Boone Hall Brickyard that made millions of Charleston bricks.",
+          "Visit the preserved Brick Cabin Street along the marsh to learn from the historical exhibits about the Gullah Geechee culture and brickmakers.",
+          "Step inside the seasonal conservatory / gardens to spot giant circular water-lily pads or vibrant swallowtail butterflies."
+        ]
+      },
+      {
+        "id": "hunt_21",
+        "title": "Sullivan's Island Triangular Lighthouse & Poe's Gold Bug Cipher",
+        "theme": "Architecture",
+        "summary": "Investigate one of the most unusual modern lighthouses in America—with an air-conditioned triangular shaft and elevator—plus Edgar Allan Poe's island haunts.",
+        "est_time_minutes": 45,
+        "cost_category": "Free",
+        "start_lat": 32.7601,
+        "start_lng": -79.8396,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7601,-79.8396",
+        "clues": [
+          "Stand on the boardwalk path at Station 18.5 to inspect the 140-foot Charleston Lighthouse (built in 1962)—notice its futuristic triangular shape designed to withstand hurricane winds.",
+          "Discover why the top half of the lighthouse is painted black and the bottom half white (so ships can see it against both bright clouds and dark trees).",
+          "Examine the round brick-and-concrete Life-Saving Station buildings at the base of the lighthouse grounds.",
+          "Drive or walk two blocks to Middle Street to spot Poe's Tavern, honoring author Edgar Allan Poe who was stationed on Sullivan's Island in 1827 and set his treasure story 'The Gold-Bug' here."
+        ]
+      },
+      {
+        "id": "hunt_22",
+        "title": "College of Charleston Cistern Yard & Megalodon Jaw Hunt",
+        "theme": "Architecture",
+        "summary": "Explore the shady 1770 campus quad framed by Spanish moss and salmon-colored columns, then duck inside the free Mace Brown Natural History Museum to see monster shark jaws.",
+        "est_time_minutes": 45,
+        "cost_category": "Free",
+        "start_lat": 32.7839,
+        "start_lng": -79.9373,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7839,-79.9373",
+        "clues": [
+          "Enter the famous Cistern Yard through Porter's Lodge arch on George Street and walk the brick paths beneath the 200-year-old live oaks.",
+          "Count the tall Ionic columns across the front of historic Randolph Hall (built in 1828).",
+          "Walk one block to the School of Sciences & Mathematics building (202 Calhoun St) to visit the free Mace Brown Museum of Natural History and stand in front of the giant reconstructed Megalodon shark jaw!",
+          "Inside the fossil gallery, spot the prehistoric skeleton of a giant ground sloth or ancient toothed whale excavated right here in the South Carolina Lowcountry."
+        ]
+      },
+      {
+        "id": "hunt_23",
+        "title": "Liberty Square Fort Sumter Museum & Harbor Tugboat Watch",
+        "theme": "Military",
+        "summary": "Visit the free National Park Service Fort Sumter Visitor Education Center at Liberty Square to see the giant original 1861 garrison flag and watch harbor ships.",
+        "est_time_minutes": 45,
+        "cost_category": "Free",
+        "start_lat": 32.7897,
+        "start_lng": -79.9255,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7897,-79.9255",
+        "clues": [
+          "Step inside the free Fort Sumter Visitor Education Center museum and find the massive, battle-torn 33-star U.S. Garrison Flag that flew over Fort Sumter in April 1861.",
+          "Outside on the Liberty Square plaza, walk through the fountains and granite monuments honoring September C. Clark and Civil Rights history.",
+          "Look out from the Cooper River dock next to the South Carolina Aquarium and spot a powerful harbor tugboat or a container ship passing under the bridge.",
+          "Locate the giant bronze shrimp boat propeller or maritime sculpture displayed along the waterfront promenade."
+        ]
+      },
+      {
+        "id": "hunt_24",
+        "title": "Cypress Gardens Blackwater Swamp Boats & Alligator Spotter",
+        "theme": "Nature",
+        "summary": "Venture 40 minutes north to an enchanting 80-acre blackwater bald cypress swamp where you can paddle flat-bottomed rowboats among knees, lilies, and wild alligators.",
+        "est_time_minutes": 90,
+        "cost_category": "Paid Admission Required",
+        "start_lat": 33.0560,
+        "start_lng": -79.9510,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=33.0560,-79.9510",
+        "clues": [
+          "Look down into the calm, mirror-like blackwater swamp (colored dark like sweet tea by tannic acid from fallen cypress needles) and take a reflection photo.",
+          "Whether paddling a flat-bottomed swamp boat following the floating route markers or walking the footbridges, spot a wild American Alligator resting on a sunny bank.",
+          "Count a cluster of at least 10 'cypress knees'—the knobby wooden cones poking straight up out of the water around the base of a bald cypress tree.",
+          "Step inside the glass Butterfly House to have a live butterfly land near you and spot a tiny button quail running along the garden floor."
+        ]
+      },
+      {
+        "id": "hunt_25",
+        "title": "The Citadel Checkerboard Quad & Hampton Park Gazebo Safari",
+        "theme": "Photo Ops",
+        "summary": "Inspect giant military aircraft, tanks, and castle battlements at The Citadel, then stroll into neighboring Hampton Park to cross duck-pond bridges.",
+        "est_time_minutes": 50,
+        "cost_category": "Free",
+        "start_lat": 32.7988,
+        "start_lng": -79.9558,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7988,-79.9558",
+        "clues": [
+          "Near the Avenue of Remembrance at The Citadel, inspect the outdoor military static displays including the Sherman Tank, Phantom jet, and naval anchor.",
+          "Peer inside one of the Moorish-style white castle barracks gates to glimpse the famous black-and-white red-and-white 'checkerboard' courtyard quad.",
+          "Walk across Moultrie Street into expansive Hampton Park and cross the arched wooden footbridge over the duck lagoon.",
+          "Locate the historic white wooden bandstand gazebo in Hampton Park—originally built for the 1901–1902 South Carolina Inter-State and West Indian Exposition."
+        ]
+      },
+      {
+        "id": "hunt_26",
+        "title": "Daniel Island Wando River Trail & Giant Musical Chimes",
+        "theme": "Nature",
+        "summary": "Just 12 minutes across I-526 from Mount Pleasant! Walk the scenic Wando River waterfront trail past giant outdoor musical instruments, osprey nests, and river swings.",
+        "est_time_minutes": 50,
+        "cost_category": "Free",
+        "start_lat": 32.8542,
+        "start_lng": -79.9189,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8542,-79.9189",
+        "clues": [
+          "Start at Children's Park along the Wando River and play a family tune on the oversized outdoor metallic musical chimes and xylophones.",
+          "Look high atop the tall wooden channel markers or utility poles along the marsh edge to spot a massive stick nest built by a pair of Ospreys (sea hawks).",
+          "Walk out onto the public floating dock over the Wando River and test how the dock rises and falls with the Lowcountry tide.",
+          "Find the shaded wooden bench swings overlooking the river bend and spot a dolphin or wakeboard boat cruising past."
+        ]
+      },
+      {
+        "id": "hunt_27",
+        "title": "Bohicket Marina Mega-Yachts, Pelicans & Giant Shark Statue",
+        "theme": "Photo Ops",
+        "summary": "Explore the picturesque harbor village tucked between Kiawah and Seabrook Islands to measure your height against a hanging shark statue and spot luxury sportfishing yachts.",
+        "est_time_minutes": 45,
+        "cost_category": "Free",
+        "start_lat": 32.6022,
+        "start_lng": -80.1502,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.6022,-80.1502",
+        "clues": [
+          "Find the famous life-size hanging Great White / Tiger Shark trophy statue on the Bohicket Marina boardwalk and pose for a family photo underneath its jaws!",
+          "Walk down the floating marina piers to find the largest offshore sportfishing yacht and count how many fishing rod holders ('rocket launchers') are mounted on its tower.",
+          "Look closely at the submerged side of the floating docks to spot bright orange sea squirts, tiny mud crabs, or needlefish swimming in the shadow.",
+          "Sit in one of the bright red Adirondack chairs overlooking Bohicket Creek and watch a charter captain return to dock."
+        ]
+      },
+      {
+        "id": "hunt_28",
+        "title": "Center for Birds of Prey Eagle & Owl Flight Mission",
+        "theme": "Nature",
+        "summary": "Located 20 minutes north of the hotel in Awendaw! Witness eagles, hawks, falcons, and owls from around the world on a forested avian campus.",
+        "est_time_minutes": 90,
+        "cost_category": "Paid Admission Required",
+        "start_lat": 32.9818,
+        "start_lng": -79.6694,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.9818,-79.6694",
+        "clues": [
+          "Along the Owl Wood trail, spot a Great Horned Owl or Eurasian Eagle-Owl and notice the feather tufts ('plumicorns') that look like ears.",
+          "Watch the live flight demonstration on the flying field to see how fast a Peregrine Falcon dives or how silently an owl glides right over the audience's heads.",
+          "Compare your 9-10 year old's arm span against the wingspan chart of a Bald Eagle (which can reach over 7 feet wide!).",
+          "Spot the colorful King Vulture or Black Vulture in the scavenger aviary and learn how they keep the Lowcountry ecosystem clean."
+        ]
+      },
+      {
+        "id": "hunt_29",
+        "title": "Magnolia Plantation White Bridge, Peacocks & Rice Field Tower",
+        "theme": "Photo Ops",
+        "summary": "Roam America's oldest public gardens along the Ashley River to photograph iconic white footbridges, free-roaming peacocks, hedge mazes, and alligator observation towers.",
+        "est_time_minutes": 90,
+        "cost_category": "Paid Admission Required",
+        "start_lat": 32.8767,
+        "start_lng": -80.0825,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8767,-80.0825",
+        "clues": [
+          "Find the famous ornamental white Long Bridge arching over the blackwater cypress pond and capture a mirror-reflection photo.",
+          "Spot one of Magnolia's free-roaming vibrant blue-and-green Indian Peacocks strutting near the petting zoo or carriage house.",
+          "Race through the pathways of the Horticultural Maze (modeled after England's Hampton Court maze) to reach the center first.",
+          "Climb the wooden wildlife observation tower overlooking the historic flooded rice fields and scan the lily pads for basking alligators and moorhens."
+        ]
+      },
+      {
+        "id": "hunt_30",
+        "title": "Towne Centre Basecamp Kickoff & Fountain Challenge",
+        "theme": "Photo Ops",
+        "summary": "Starts right outside the front doors of the Hyatt Place Mount Pleasant Towne Centre! A fast, zero-drive warm-up mission along the palm-lined avenues of Towne Centre.",
+        "est_time_minutes": 30,
+        "cost_category": "Free",
+        "start_lat": 32.8335,
+        "start_lng": -79.8256,
+        "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8335,-79.8256",
+        "clues": [
+          "Step right outside Hyatt Place onto Palmetto Grande Drive and find the bronze or stone Palmetto tree medallions embedded along the plaza walkways.",
+          "Locate the central cascading water fountain plaza at The Oaks / Market Street in Towne Centre and toss in a lucky penny to kick off your Charleston trip.",
+          "Track down the independent local bookstore or ice cream shop along the palm-lined promenade and find a book or postcard featuring a Charleston landmark.",
+          "Take an official 'Team Recon Kickoff' selfie under the illuminated Regal Palmetto Grande marquee or bronze wildlife sculptures."
+        ]
+      }
+    ];
+
+    // ================= STATE MANAGEMENT =================
+    let HUNTS_DATA = [];
+    let completedCluesMap = {}; // { "hunt_01": [0, 2], ... }
+    let userCoords = {
+      lat: HOTEL_BASECAMP.lat,
+      lng: HOTEL_BASECAMP.lng,
+      label: HOTEL_BASECAMP.name
+    };
+    let activeHuntId = null;
+    let qrCodeInstance = null;
+
+    // Initialize app & load saved progress/hunts from localStorage
+    function initAppState() {
+      try {
+        const savedHunts = localStorage.getItem('chs_scavenger_hunts_30_v1');
+        if (savedHunts) {
+          const parsed = JSON.parse(savedHunts);
+          if (Array.isArray(parsed) && parsed.length >= 30) {
+            HUNTS_DATA = parsed;
+          } else {
+            HUNTS_DATA = JSON.parse(JSON.stringify(DEFAULT_HUNTS_DATA));
+          }
+        } else {
+          HUNTS_DATA = JSON.parse(JSON.stringify(DEFAULT_HUNTS_DATA));
+        }
+
+        const savedProgress = localStorage.getItem('chs_scavenger_progress_v1');
+        if (savedProgress) {
+          completedCluesMap = JSON.parse(savedProgress) || {};
+        }
+      } catch (err) {
+        console.warn('LocalStorage fallback used:', err);
+        HUNTS_DATA = JSON.parse(JSON.stringify(DEFAULT_HUNTS_DATA));
+      }
+
+      // Compute initial distances from Hyatt Place Mount Pleasant Towne Centre so every card immediately shows a distance badge
+      HUNTS_DATA.forEach(hunt => {
+        hunt.distance_miles = calculateHaversineMiles(
+          userCoords.lat,
+          userCoords.lng,
+          Number(hunt.start_lat),
+          Number(hunt.start_lng)
+        );
+      });
+
+      updateHeaderCounts();
+      applyFilters();
+    }
+
+    function saveProgressState() {
+      try {
+        localStorage.setItem('chs_scavenger_progress_v1', JSON.stringify(completedCluesMap));
+      } catch (e) {
+        console.warn('Could not save progress to localStorage', e);
+      }
+      updateHeaderCounts();
+    }
+
+    function updateHeaderCounts() {
+      document.getElementById('total-hunts-badge').textContent = `${HUNTS_DATA.length} Active Hunts`;
+      document.getElementById('json-count-label').textContent = HUNTS_DATA.length;
+
+      let totalClues = 0;
+      let doneClues = 0;
+      HUNTS_DATA.forEach(h => {
+        totalClues += (h.clues ? h.clues.length : 0);
+        const doneArr = completedCluesMap[h.id] || [];
+        doneClues += doneArr.length;
+      });
+      document.getElementById('global-clues-progress').textContent = `${doneClues} / ${totalClues}`;
+    }
+
+    // ================= HAVERSINE FORMULA & GEOLOCATION =================
+    function calculateHaversineMiles(lat1, lon1, lat2, lon2) {
+      const R = 3958.8; // Earth radius in miles
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    function updateDistancesFromCoords(lat, lng, label) {
+      userCoords = { lat, lng, label };
+      HUNTS_DATA.forEach(hunt => {
+        hunt.distance_miles = calculateHaversineMiles(lat, lng, Number(hunt.start_lat), Number(hunt.start_lng));
+      });
+
+      // Automatically switch sort dropdown to Distance (Closest First)
+      document.getElementById('sort-order').value = 'distance';
+      document.getElementById('reference-point-label').textContent = `📍 Sorted by distance from: ${label}`;
+      applyFilters();
+    }
+
+    function requestUserLocation() {
+      const banner = document.getElementById('location-status-banner');
+      const msgEl = document.getElementById('location-status-msg');
+      const iconEl = document.getElementById('location-status-icon');
+      const btnText = document.getElementById('location-btn-text');
+
+      banner.classList.remove('hidden');
+      iconEl.textContent = '📡';
+      msgEl.textContent = 'Requesting live GPS location from your device...';
+      btnText.textContent = 'Locating...';
+
+      if (!navigator.geolocation) {
+        iconEl.textContent = '⚠️';
+        msgEl.textContent = 'Geolocation is not supported by this browser. Using Hyatt Place Mount Pleasant basecamp instead.';
+        btnText.textContent = 'Share Location & Sort';
+        useHotelLocation(true);
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          iconEl.textContent = '✅';
+          msgEl.textContent = `Live GPS locked (${latitude.toFixed(4)}, ${longitude.toFixed(4)}). All 30 hunts sorted closest to you!`;
+          btnText.textContent = 'Live GPS Active';
+          updateDistancesFromCoords(latitude, longitude, 'Your Live GPS Position');
+          showToast('Sorted all 30 hunts by closest distance to you!');
+        },
+        (error) => {
+          console.warn('Geolocation fallback triggered:', error.message);
+          iconEl.textContent = '🏨';
+          msgEl.textContent = `Live GPS unavailable (${error.message || 'permission denied or laptop fallback'}). Automatically sorted from Hyatt Place Mount Pleasant Towne Centre!`;
+          btnText.textContent = 'Share Location & Sort';
+          useHotelLocation(true);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 8000,
+          maximumAge: 60000
+        }
+      );
+    }
+
+    function useHotelLocation(keepBannerMessage = false) {
+      const banner = document.getElementById('location-status-banner');
+      const msgEl = document.getElementById('location-status-msg');
+      const iconEl = document.getElementById('location-status-icon');
+
+      banner.classList.remove('hidden');
+      if (!keepBannerMessage) {
+        iconEl.textContent = '🏨';
+        msgEl.textContent = `Distances calculated from ${HOTEL_BASECAMP.name} (${HOTEL_BASECAMP.lat}, ${HOTEL_BASECAMP.lng}) and sorted closest-first.`;
+      }
+      updateDistancesFromCoords(HOTEL_BASECAMP.lat, HOTEL_BASECAMP.lng, HOTEL_BASECAMP.name);
+      showToast('Sorted closest-first from Hyatt Place Mt. Pleasant!');
+    }
+
+    // ================= FILTERING, SORTING & RENDERING =================
+    function getThemeBadgeStyle(theme) {
+      switch (theme) {
+        case 'Nature':
+          return { bg: 'bg-emerald-100 text-emerald-900 border-emerald-200', icon: '🐬' };
+        case 'Military':
+          return { bg: 'bg-slate-200 text-slate-900 border-slate-300', icon: '⚓' };
+        case 'Historical':
+          return { bg: 'bg-amber-100 text-amber-900 border-amber-200', icon: '🏛️' };
+        case 'Architecture':
+          return { bg: 'bg-rose-100 text-rose-900 border-rose-200', icon: '🧱' };
+        case 'Photo Ops':
+          return { bg: 'bg-sky-100 text-sky-900 border-sky-200', icon: '📸' };
+        default:
+          return { bg: 'bg-teal-100 text-teal-900 border-teal-200', icon: '🧭' };
+      }
+    }
+
+    function getCostBadgeStyle(cost) {
+      if (cost === 'Free') return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
+      if (cost === 'Under $20') return 'bg-amber-50 text-amber-800 border border-amber-200';
+      return 'bg-purple-50 text-purple-800 border border-purple-200';
+    }
+
+    function setQuickTheme(theme) {
+      document.getElementById('filter-theme').value = theme;
+      applyFilters();
+    }
+
+    function clearSearch() {
+      document.getElementById('search-input').value = '';
+      applyFilters();
+    }
+
+    function resetAllFilters() {
+      document.getElementById('search-input').value = '';
+      document.getElementById('filter-theme').value = 'All';
+      document.getElementById('filter-time').value = 'All';
+      document.getElementById('filter-cost').value = 'All';
+      document.getElementById('sort-order').value = 'default';
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const query = document.getElementById('search-input').value.trim().toLowerCase();
+      const theme = document.getElementById('filter-theme').value;
+      const maxTime = document.getElementById('filter-time').value;
+      const cost = document.getElementById('filter-cost').value;
+      const sortOrder = document.getElementById('sort-order').value;
+
+      // Toggle clear search button
+      const clearBtn = document.getElementById('clear-search-btn');
+      if (query.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+
+      // Sync quick theme pills visual state
+      document.querySelectorAll('.theme-pill').forEach(btn => {
+        if (btn.getAttribute('data-theme-pill') === theme) {
+          btn.className = 'theme-pill min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-lowcountry-navy text-white shadow-sm';
+        } else {
+          btn.className = 'theme-pill min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200';
+        }
+      });
+
+      // Filter array
+      let filtered = HUNTS_DATA.filter(hunt => {
+        if (theme !== 'All' && hunt.theme !== theme) return false;
+        if (cost !== 'All' && hunt.cost_category !== cost) return false;
+
+        if (maxTime !== 'All') {
+          const limit = Number(maxTime);
+          if (hunt.est_time_minutes > limit) return false;
+        }
+
+        if (query) {
+          const haystack = `${hunt.id} ${hunt.title} ${hunt.theme} ${hunt.summary} ${(hunt.clues || []).join(' ')}`.toLowerCase();
+          if (!haystack.includes(query)) return false;
+        }
+        return true;
+      });
+
+      // Sort array
+      filtered.sort((a, b) => {
+        if (sortOrder === 'distance') {
+          const distA = typeof a.distance_miles === 'number' ? a.distance_miles : 9999;
+          const distB = typeof b.distance_miles === 'number' ? b.distance_miles : 9999;
+          return distA - distB;
+        }
+        if (sortOrder === 'time_asc') {
+          return a.est_time_minutes - b.est_time_minutes;
+        }
+        if (sortOrder === 'progress') {
+          const progA = (completedCluesMap[a.id] || []).length;
+          const progB = (completedCluesMap[b.id] || []).length;
+          if (progB !== progA) return progB - progA;
+        }
+        return a.id.localeCompare(b.id, undefined, { numeric: true });
+      });
+
+      renderHuntsGrid(filtered);
+    }
+
+    function renderHuntsGrid(hunts) {
+      const grid = document.getElementById('hunts-grid');
+      const emptyState = document.getElementById('empty-state');
+      const countLabel = document.getElementById('results-count-label');
+
+      countLabel.textContent = `Showing ${hunts.length} of ${HUNTS_DATA.length} scavenger hunts`;
+
+      if (hunts.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      grid.innerHTML = hunts.map(hunt => {
+        const themeStyle = getThemeBadgeStyle(hunt.theme);
+        const costClass = getCostBadgeStyle(hunt.cost_category);
+        const doneList = completedCluesMap[hunt.id] || [];
+        const totalClues = (hunt.clues || []).length;
+        const pct = totalClues > 0 ? Math.round((doneList.length / totalClues) * 100) : 0;
+
+        const distText = typeof hunt.distance_miles === 'number'
+          ? (hunt.distance_miles < 0.15 ? 'At Hotel!' : `${hunt.distance_miles.toFixed(1)} mi`)
+          : '';
+
+        const distanceBadge = distText
+          ? `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-teal-50 text-teal-800 border border-teal-200 text-xs font-bold">
+               📍 ${distText}
+             </span>`
+          : '';
+
+        return `
+          <article onclick="openDetailModal('${hunt.id}')"
+            class="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-teal-500 transition flex flex-col justify-between overflow-hidden group cursor-pointer">
+            <div class="p-5">
+              <!-- Top Badges Row -->
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${themeStyle.bg}">
+                  <span>${themeStyle.icon}</span>
+                  <span>${hunt.theme}</span>
+                </span>
+                ${distanceBadge}
+              </div>
+
+              <!-- Hunt ID + Title -->
+              <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-0.5">
+                ${hunt.id.replace('_', ' #')}
+              </div>
+              <h2 class="font-display text-lg font-bold text-slate-900 group-hover:text-teal-700 transition leading-snug">
+                ${hunt.title}
+              </h2>
+
+              <!-- Summary -->
+              <p class="text-slate-600 text-xs sm:text-sm mt-2 line-clamp-3 leading-relaxed">
+                ${hunt.summary}
+              </p>
+
+              <!-- Meta Tags -->
+              <div class="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-slate-100 text-xs font-medium text-slate-600">
+                <span class="inline-flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-md font-semibold">
+                  ⏱️ ${hunt.est_time_minutes} min
+                </span>
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md font-semibold ${costClass}">
+                  ${hunt.cost_category}
+                </span>
+              </div>
+            </div>
+
+            <!-- Card Footer: Progress Bar & Action Buttons -->
+            <div class="px-5 pb-4 pt-2.5 bg-slate-50/70 border-t border-slate-100" onclick="event.stopPropagation()">
+              <!-- Clue Progress Bar -->
+              <div class="flex items-center justify-between text-xs text-slate-500 mb-1.5">
+                <span class="font-medium">${doneList.length} of ${totalClues} clues found</span>
+                <span class="font-bold ${pct === 100 ? 'text-emerald-600' : 'text-slate-600'}">${pct}%</span>
+              </div>
+              <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden mb-3.5">
+                <div class="h-full bg-teal-500 transition-all duration-300" style="width: ${pct}%"></div>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button onclick="openDetailModal('${hunt.id}')"
+                  class="flex-1 min-h-[44px] px-4 py-2.5 rounded-xl bg-lowcountry-navy hover:bg-teal-700 text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition">
+                  <span>View Clues & PDF</span>
+                  <span>→</span>
+                </button>
+                <a href="${hunt.google_maps_link}" target="_blank" rel="noopener noreferrer"
+                  title="Open starting coordinates in Google Maps"
+                  aria-label="Open Start Point in Google Maps"
+                  class="min-h-[44px] min-w-[44px] rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 flex items-center justify-center transition">
+                  🗺️
+                </a>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // ================= DETAIL MODAL & INTERACTIVE CLUES =================
+    function openDetailModal(huntId) {
+      const hunt = HUNTS_DATA.find(h => h.id === huntId);
+      if (!hunt) return;
+
+      activeHuntId = huntId;
+      const themeStyle = getThemeBadgeStyle(hunt.theme);
+
+      document.getElementById('modal-id-badge').textContent = hunt.id.toUpperCase();
+      document.getElementById('modal-theme-badge').textContent = `${themeStyle.icon} ${hunt.theme}`;
+      document.getElementById('modal-title').textContent = hunt.title;
+      document.getElementById('modal-time').textContent = `${hunt.est_time_minutes} mins`;
+      document.getElementById('modal-cost').textContent = hunt.cost_category;
+      document.getElementById('modal-coords').textContent = `${Number(hunt.start_lat).toFixed(4)}, ${Number(hunt.start_lng).toFixed(4)}`;
+      document.getElementById('modal-summary').textContent = hunt.summary;
+      document.getElementById('modal-maps-link').href = hunt.google_maps_link;
+
+      // Distance pill
+      const distPill = document.getElementById('modal-distance-pill');
+      if (typeof hunt.distance_miles === 'number') {
+        distPill.classList.remove('hidden');
+        const distLabel = hunt.distance_miles < 0.15
+          ? '0.0 mi (Starts at Hotel!)'
+          : `${hunt.distance_miles.toFixed(1)} mi away`;
+        document.getElementById('modal-distance').textContent = distLabel;
+        document.getElementById('print-distance-note').textContent = `(${distLabel})`;
+      } else {
+        distPill.classList.add('hidden');
+        document.getElementById('print-distance-note').textContent = '';
+      }
+
+      // Populate Print-Only Fields
+      document.getElementById('print-title').textContent = `${hunt.id.toUpperCase()}: ${hunt.title}`;
+      document.getElementById('print-meta-line').textContent = `${hunt.theme} • Est. ${hunt.est_time_minutes} Mins • ${hunt.cost_category}`;
+      document.getElementById('print-coords').textContent = `${hunt.start_lat}, ${hunt.start_lng}`;
+      document.getElementById('print-maps-url').textContent = hunt.google_maps_link;
+
+      renderModalClues();
+
+      const modal = document.getElementById('detail-modal');
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderModalClues() {
+      const hunt = HUNTS_DATA.find(h => h.id === activeHuntId);
+      if (!hunt) return;
+
+      const doneList = completedCluesMap[hunt.id] || [];
+      const total = hunt.clues.length;
+      const pct = total > 0 ? Math.round((doneList.length / total) * 100) : 0;
+
+      const cluesContainer = document.getElementById('modal-clues-list');
+      const progressText = document.getElementById('modal-clue-progress-text');
+      const progressBar = document.getElementById('modal-progress-bar');
+
+      progressText.textContent = `${doneList.length} of ${total} Completed (${pct}%)`;
+      progressBar.style.width = `${pct}%`;
+
+      cluesContainer.innerHTML = hunt.clues.map((clueText, idx) => {
+        const isChecked = doneList.includes(idx);
+        return `
+          <div onclick="toggleClue('${hunt.id}', ${idx})"
+            role="checkbox"
+            aria-checked="${isChecked}"
+            tabindex="0"
+            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleClue('${hunt.id}', ${idx});}"
+            class="min-h-[56px] p-4 rounded-xl border transition cursor-pointer flex items-start gap-3.5 select-none print-border ${
+              isChecked
+                ? 'bg-emerald-50/80 border-emerald-300 text-slate-500'
+                : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-900'
+            }">
+            
+            <!-- Screen Interactive Checkbox (44px touch friendly wrapper) -->
+            <div class="no-print w-6 h-6 rounded-lg border-2 flex items-center justify-center shrink-0 mt-0.5 transition ${
+              isChecked ? 'bg-emerald-600 border-emerald-600 text-white font-bold' : 'bg-white border-slate-300'
+            }">
+              ${isChecked ? '✓' : ''}
+            </div>
+
+            <!-- Print-Only Clean Checkbox -->
+            <span class="hidden print-only print-checkbox"></span>
+
+            <div class="flex-1">
+              <span class="text-xs font-bold uppercase tracking-wider ${isChecked ? 'text-emerald-700' : 'text-teal-700'}">
+                Clue #${idx + 1}
+              </span>
+              <p class="text-sm sm:text-base mt-0.5 leading-relaxed ${isChecked ? 'line-through text-slate-500' : 'text-slate-800 font-medium'}">
+                ${clueText}
+              </p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleClue(huntId, clueIndex) {
+      if (!completedCluesMap[huntId]) {
+        completedCluesMap[huntId] = [];
+      }
+      const arr = completedCluesMap[huntId];
+      const existingIdx = arr.indexOf(clueIndex);
+      if (existingIdx > -1) {
+        arr.splice(existingIdx, 1);
+      } else {
+        arr.push(clueIndex);
+      }
+      saveProgressState();
+      renderModalClues();
+      applyFilters();
+    }
+
+    function resetCurrentHuntProgress() {
+      if (!activeHuntId) return;
+      completedCluesMap[activeHuntId] = [];
+      saveProgressState();
+      renderModalClues();
+      applyFilters();
+      showToast('Clue checkboxes reset for this hunt.');
+    }
+
+    function closeDetailModal() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      document.getElementById('detail-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+      activeHuntId = null;
+    }
+
+    function printCurrentHunt() {
+      window.print();
+    }
+
+    // Audio Mission Briefing for the 9-10 year old son
+    function speakMissionBriefing() {
+      if (!('speechSynthesis' in window)) {
+        showToast('Audio speech is not supported on this browser.', '⚠️');
+        return;
+      }
+      const hunt = HUNTS_DATA.find(h => h.id === activeHuntId);
+      if (!hunt) return;
+
+      window.speechSynthesis.cancel();
+      const text = `Mission Briefing for ${hunt.title}. ${hunt.summary} Objective 1: ${hunt.clues[0]}`;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.02;
+      window.speechSynthesis.speak(utterance);
+      showToast('Playing audio mission briefing...', '🔊');
+    }
+
+    // ================= QR CODE SHARING MODAL (WITH FALLBACK) =================
+    function openQrModal() {
+      const modal = document.getElementById('qr-modal');
+      const input = document.getElementById('qr-url-input');
+      const currentUrl = window.location.href;
+      input.value = currentUrl;
+
+      modal.classList.remove('hidden');
+      generateQrCode(currentUrl);
+    }
+
+    function generateQrCode(urlText) {
+      const container = document.getElementById('qrcode-container');
+      container.innerHTML = '';
+      const targetUrl = urlText || window.location.href || 'https://example.com';
+
+      if (typeof QRCode !== 'undefined') {
+        try {
+          qrCodeInstance = new QRCode(container, {
+            text: targetUrl,
+            width: 200,
+            height: 200,
+            colorDark: '#0f2942',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.M
+          });
+          return;
+        } catch (err) {
+          console.warn('QRCode.js fallback triggered:', err);
+        }
+      }
+
+      // Clean fallback QR renderer if CDN is blocked or offline
+      const encoded = encodeURIComponent(targetUrl);
+      container.innerHTML = `
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encoded}" 
+             alt="QR Code for App Link" 
+             width="200" height="200"
+             onerror="this.outerHTML='<div class=\\'p-4 text-xs text-slate-600\\'>Offline mode: Copy the link below to share to your phone.</div>'" />
+      `;
+    }
+
+    function updateQrCodeFromInput() {
+      const val = document.getElementById('qr-url-input').value.trim();
+      if (val) {
+        generateQrCode(val);
+      }
+    }
+
+    function copyAppUrl() {
+      const input = document.getElementById('qr-url-input');
+      input.select();
+      document.execCommand('copy');
+      showToast('App link copied to clipboard!');
+    }
+
+    function closeQrModal() {
+      document.getElementById('qr-modal').classList.add('hidden');
+    }
+
+    // ================= JSON BATCH IMPORT / EXPORT MODAL =================
+    function openJsonModal() {
+      document.getElementById('json-modal').classList.remove('hidden');
+      document.getElementById('json-feedback').classList.add('hidden');
+      loadCurrentJsonIntoTextarea();
+    }
+
+    function closeJsonModal() {
+      document.getElementById('json-modal').classList.add('hidden');
+    }
+
+    function loadCurrentJsonIntoTextarea() {
+      const cleanData = HUNTS_DATA.map(({ distance_miles, ...rest }) => rest);
+      document.getElementById('json-textarea').value = JSON.stringify(cleanData, null, 2);
+    }
+
+    function copyJsonTextarea() {
+      const textarea = document.getElementById('json-textarea');
+      textarea.select();
+      document.execCommand('copy');
+      showToast('All 30 hunts JSON copied to clipboard!');
+    }
+
+    function importJsonBatch() {
+      const raw = document.getElementById('json-textarea').value.trim();
+      const feedback = document.getElementById('json-feedback');
+
+      if (!raw) {
+        feedback.className = 'mt-2 p-2.5 rounded-lg text-xs font-semibold bg-rose-100 text-rose-800';
+        feedback.textContent = 'Please paste a valid JSON array of hunts first.';
+        feedback.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(raw);
+        const incomingArray = Array.isArray(parsed) ? parsed : [parsed];
+
+        let addedCount = 0;
+        let updatedCount = 0;
+
+        incomingArray.forEach(item => {
+          if (item && item.id && item.title && Array.isArray(item.clues)) {
+            item.distance_miles = calculateHaversineMiles(
+              userCoords.lat,
+              userCoords.lng,
+              Number(item.start_lat),
+              Number(item.start_lng)
+            );
+            const existingIdx = HUNTS_DATA.findIndex(h => h.id === item.id);
+            if (existingIdx > -1) {
+              HUNTS_DATA[existingIdx] = item;
+              updatedCount++;
+            } else {
+              HUNTS_DATA.push(item);
+              addedCount++;
+            }
+          }
+        });
+
+        localStorage.setItem('chs_scavenger_hunts_30_v1', JSON.stringify(HUNTS_DATA));
+        updateHeaderCounts();
+        applyFilters();
+
+        feedback.className = 'mt-2 p-2.5 rounded-lg text-xs font-semibold bg-emerald-100 text-emerald-900';
+        feedback.textContent = `Success! Added ${addedCount} new hunts and updated ${updatedCount} existing hunts. Total active: ${HUNTS_DATA.length}.`;
+        feedback.classList.remove('hidden');
+        showToast(`Saved dataset (${HUNTS_DATA.length} total hunts)!`);
+      } catch (err) {
+        feedback.className = 'mt-2 p-2.5 rounded-lg text-xs font-semibold bg-rose-100 text-rose-800';
+        feedback.textContent = `Invalid JSON syntax: ${err.message}`;
+        feedback.classList.remove('hidden');
+      }
+    }
+
+    function resetToDefaultHunts() {
+      HUNTS_DATA = JSON.parse(JSON.stringify(DEFAULT_HUNTS_DATA));
+      HUNTS_DATA.forEach(h => {
+        h.distance_miles = calculateHaversineMiles(userCoords.lat, userCoords.lng, Number(h.start_lat), Number(h.start_lng));
+      });
+      localStorage.removeItem('chs_scavenger_hunts_30_v1');
+      loadCurrentJsonIntoTextarea();
+      updateHeaderCounts();
+      applyFilters();
+      showToast('Reset to all 30 default Charleston hunts.');
+    }
+
+    // ================= UTILITY TOAST =================
+    let toastTimeout = null;
+    function showToast(message, icon = '✅') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = message;
+      document.getElementById('toast-icon').textContent = icon;
+      toast.classList.remove('hidden');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3500);
+    }
+
+    // Close modals on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeDetailModal();
+        closeQrModal();
+        closeJsonModal();
+      }
+    });
+
+    // Initialize on load
+    window.onload = function () {
+      initAppState();
+    };
+  </script>
+</body>
+</html>
