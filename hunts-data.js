@@ -899,5 +899,4 @@ window.CHARLESTON_HUNTS = [
       "Watch a giant container ship or harbor pilot boat cruise past just a few hundred yards offshore."
     ]
   }
-);
 ];
