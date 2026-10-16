@@ -24,7 +24,9 @@
       body { background: #fff !important; color: #000 !important; }
       .no-print { display: none !important; }
       .print-only { display: block !important; }
-      @page { size: letter portrait; margin: 0.5in; }
+      .page-break-before { page-break-before: always; break-before: page; }
+      .avoid-break { page-break-inside: avoid; break-inside: avoid; }
+      @page { size: letter portrait; margin: 0.45in; }
     }
     .print-only { display: none; }
   </style>
@@ -32,69 +34,79 @@
 <body class="min-h-screen flex flex-col">
 
   <!-- TOP GAMIFICATION & CLOUD SYNC HEADER -->
-  <header class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 text-white shadow-md no-print">
-    <div class="max-w-7xl mx-auto px-3 sm:px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2.5">
-      <div class="flex items-center justify-between gap-2">
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-400 text-slate-950">50 Quests</span>
-            <button id="syncStatusBtn" onclick="pullFromSupabase(true)" class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white/10 hover:bg-white/20 flex items-center gap-1.5 transition" title="Tap to force sync with Supabase">
-              <span id="syncDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-              <span id="syncText">Connecting...</span>
-            </button>
+  <header class="bg-gradient-to-b from-slate-900 via-teal-950 to-slate-900 text-white shadow-md no-print">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-4 pt-3 pb-3 space-y-3">
+      <!-- Top Brand & QR Row -->
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2.5">
+        <div class="flex items-center justify-between gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-amber-400 text-slate-950">50 Quests</span>
+              <button id="syncStatusBtn" onclick="pullFromSupabase(true)" class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white/10 hover:bg-white/20 flex items-center gap-1.5 transition" title="Tap to force sync with Supabase">
+                <span id="syncDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span id="syncText">Connecting...</span>
+              </button>
+            </div>
+            <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight mt-0.5">Lowcountry Quest</h1>
+            <p class="text-[11px] sm:text-xs text-teal-200/90">Basecamp: Hyatt Place Mount Pleasant Towne Centre</p>
           </div>
-          <h1 class="text-lg sm:text-2xl font-extrabold tracking-tight mt-0.5">Lowcountry Quest</h1>
-          <p class="text-[11px] sm:text-xs text-teal-200">Basecamp: Hyatt Place Mount Pleasant Towne Centre</p>
+
+          <!-- Mobile QR Button -->
+          <button onclick="openQrModal()" class="md:hidden tap-target px-3.5 py-2 rounded-2xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow">
+            <span>📱 QR</span>
+          </button>
         </div>
 
-        <!-- Mobile QR Button -->
-        <button onclick="openQrModal()" class="md:hidden tap-target px-3 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs flex items-center gap-1 shadow">
-          <span>📱 QR</span>
-        </button>
-      </div>
-
-      <!-- INTERACTIVE XP & RANK PILL (Clicking opens the Trophy Room!) -->
-      <div class="flex items-center justify-between gap-2.5">
-        <button onclick="switchMainTab('awards')" class="flex-1 md:flex-initial text-left flex items-center justify-between gap-3 bg-white/10 hover:bg-white/20 active:scale-[0.99] backdrop-blur-md px-3.5 py-2 rounded-2xl border border-white/15 transition group" title="Open Family Trophy Room & Awards">
-          <div class="flex items-center gap-2.5">
-            <div id="rankIcon" class="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center text-xl font-bold shadow group-hover:scale-105 transition">🌴</div>
-            <div>
-              <div class="flex items-center gap-2">
-                <span id="rankTitle" class="text-xs sm:text-sm font-bold text-white">Palmetto Recruit</span>
-                <span id="xpText" class="text-xs font-extrabold text-amber-300">0 XP</span>
-                <span id="awardsUnlockedPill" class="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">0 Badges</span>
-              </div>
-              <div class="flex items-center gap-2 mt-1">
-                <div class="w-32 sm:w-44 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                  <div id="xpBar" class="h-full bg-gradient-to-r from-amber-400 to-emerald-400 transition-all duration-300" style="width: 0%"></div>
+        <!-- INTERACTIVE XP & RANK PILL (Clicking opens the Trophy Room!) -->
+        <div class="flex items-center justify-between gap-2.5">
+          <button onclick="switchMainTab('awards')" class="flex-1 md:flex-initial text-left flex items-center justify-between gap-3 bg-white/10 hover:bg-white/15 active:scale-[0.99] backdrop-blur-md px-3.5 py-2.5 rounded-2xl border border-white/15 transition group" title="Open Family Trophy Room & Awards">
+            <div class="flex items-center gap-3 w-full">
+              <div id="rankIcon" class="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center text-xl font-bold shadow shrink-0 group-hover:scale-105 transition">🌴</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <div class="flex items-center gap-1.5 truncate">
+                    <span id="rankTitle" class="text-xs sm:text-sm font-bold text-white truncate">Palmetto Recruit</span>
+                    <span id="xpText" class="text-xs font-extrabold text-amber-300 shrink-0">0 XP</span>
+                  </div>
+                  <span id="awardsUnlockedPill" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 shrink-0">0/12 Medals</span>
                 </div>
-                <span class="text-[10px] text-teal-200 font-semibold group-hover:text-white">Awards →</span>
+                <div class="flex items-center gap-2 mt-1.5">
+                  <div class="flex-1 sm:w-44 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="xpBar" class="h-full bg-gradient-to-r from-amber-400 to-emerald-400 transition-all duration-300" style="width: 0%"></div>
+                  </div>
+                  <span class="text-[10px] text-teal-200 font-semibold group-hover:text-white shrink-0">Awards →</span>
+                </div>
               </div>
             </div>
-          </div>
-        </button>
+          </button>
 
-        <button onclick="openQrModal()" class="hidden md:flex tap-target px-3.5 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs items-center gap-1.5 shadow transition">
-          <span>📱 Share QR</span>
-        </button>
+          <button onclick="openQrModal()" class="hidden md:flex tap-target px-3.5 py-2.5 rounded-2xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs items-center gap-1.5 shadow transition">
+            <span>📱 Share QR</span>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <!-- PRIMARY 3-TAB NAVIGATION BAR -->
-    <div class="max-w-7xl mx-auto px-3 sm:px-4 flex gap-1.5 sm:gap-2 border-t border-white/10 pt-1.5">
-      <button id="tabExplorerBtn" onclick="switchMainTab('explorer')"
-        class="tap-target flex-1 sm:flex-initial px-3 sm:px-5 py-2 rounded-t-xl font-bold text-xs sm:text-sm transition bg-white text-slate-900 shadow flex items-center justify-center gap-1.5">
-        <span>🧭 50 Hunts</span>
-      </button>
-      <button id="tabPlannerBtn" onclick="switchMainTab('planner')"
-        class="tap-target flex-1 sm:flex-initial px-3 sm:px-5 py-2 rounded-t-xl font-bold text-xs sm:text-sm transition bg-white/10 text-teal-100 hover:bg-white/20 flex items-center justify-center gap-1.5">
-        <span>🗓️ Fri/Sat/Sun Plan</span>
-        <span id="plannedCountBadge" class="px-1.5 py-0.2 rounded-full text-[10px] bg-amber-400 text-slate-950 font-extrabold">0</span>
-      </button>
-      <button id="tabAwardsBtn" onclick="switchMainTab('awards')"
-        class="tap-target flex-1 sm:flex-initial px-3 sm:px-5 py-2 rounded-t-xl font-bold text-xs sm:text-sm transition bg-white/10 text-teal-100 hover:bg-white/20 flex items-center justify-center gap-1.5">
-        <span>🏆 Trophy Room</span>
-      </button>
+      <!-- GRAPHIC DESIGN FIX: UNIFIED SEGMENTED PILL NAVIGATION BAR -->
+      <nav aria-label="Main Navigation" class="bg-slate-950/55 p-1 rounded-2xl border border-white/10 grid grid-cols-3 gap-1">
+        <button id="tabExplorerBtn" onclick="switchMainTab('explorer')"
+          class="tap-target h-10 px-2 sm:px-4 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-1.5 whitespace-nowrap bg-white text-slate-950 shadow-sm">
+          <span>🧭</span>
+          <span>50 Hunts</span>
+        </button>
+
+        <button id="tabPlannerBtn" onclick="switchMainTab('planner')"
+          class="tap-target h-10 px-2 sm:px-4 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-1.5 whitespace-nowrap text-teal-100/90 hover:text-white hover:bg-white/10">
+          <span>🗓️</span>
+          <span>Game Plan</span>
+          <span id="plannedCountBadge" class="px-1.5 py-0.2 rounded-full text-[10px] bg-amber-400 text-slate-950 font-extrabold leading-tight">0</span>
+        </button>
+
+        <button id="tabAwardsBtn" onclick="switchMainTab('awards')"
+          class="tap-target h-10 px-2 sm:px-4 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-1.5 whitespace-nowrap text-teal-100/90 hover:text-white hover:bg-white/10">
+          <span>🏆</span>
+          <span>Trophy Room</span>
+        </button>
+      </nav>
     </div>
   </header>
 
@@ -250,21 +262,26 @@
   <!-- VIEW 2: 3-BOARD GAME PLAN (FRIDAY, SATURDAY, SUNDAY)                     -->
   <!-- ======================================================================== -->
   <main id="plannerMainView" class="max-w-7xl mx-auto w-full px-3 sm:px-4 py-4 flex-1 hidden no-print space-y-5">
-    <!-- Top Banner & Quick Actions -->
+    <!-- Top Banner & Balanced Action Grid -->
     <div class="bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900 text-white rounded-3xl p-4 sm:p-5 shadow-md flex flex-col lg:flex-row lg:items-center justify-between gap-4">
       <div>
         <div class="flex flex-wrap items-center gap-2">
-          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase bg-amber-400 text-slate-950">Interactive Day Boards</span>
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-400 text-slate-950">Interactive Day Boards</span>
           <span class="text-xs text-teal-200">Tap <strong>+ Fri</strong>, <strong>+ Sat</strong>, or <strong>+ Sun</strong> on any hunt to build your weekend!</span>
         </div>
         <h2 class="text-lg sm:text-2xl font-extrabold mt-1">Friday • Saturday • Sunday Game Plan</h2>
       </div>
-      <div class="flex flex-wrap items-center gap-2">
-        <button onclick="loadRecommendedStarterPlan()" class="tap-target px-3.5 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs sm:text-sm shadow transition">
-          ✨ Load Recommended Starter Plan
+
+      <!-- Proportional Action Buttons (Cleanly aligned on mobile and desktop) -->
+      <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
+        <button onclick="openItineraryPrintModal()" class="col-span-2 sm:col-span-1 tap-target px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow transition">
+          <span>🖨️ Print Weekend Itinerary</span>
         </button>
-        <button onclick="clearAllDayBoards()" class="tap-target px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm transition">
-          🗑️ Clear Boards
+        <button onclick="loadRecommendedStarterPlan()" class="tap-target px-3.5 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-1 shadow transition">
+          <span>✨ Starter Plan</span>
+        </button>
+        <button onclick="clearAllDayBoards()" class="tap-target px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-1 transition">
+          <span>🗑️ Clear Boards</span>
         </button>
       </div>
     </div>
@@ -288,12 +305,12 @@
       <div id="shortlistTrayContainer" class="flex gap-3 overflow-x-auto pb-2 pt-1 no-scrollbar"></div>
     </div>
 
-    <!-- Mobile Day Board Switcher (Visible on Mobile/Tablet so you don't have to scroll endlessly) -->
-    <div class="flex lg:hidden gap-1.5 bg-slate-200 p-1 rounded-2xl">
-      <button id="mobDayBtn_ALL" onclick="setMobileDayView('ALL')" class="flex-1 py-2 rounded-xl text-xs font-extrabold bg-white text-slate-900 shadow">All 3 Days</button>
-      <button id="mobDayBtn_FRI" onclick="setMobileDayView('FRI')" class="flex-1 py-2 rounded-xl text-xs font-bold text-slate-700">🌅 Fri</button>
-      <button id="mobDayBtn_SAT" onclick="setMobileDayView('SAT')" class="flex-1 py-2 rounded-xl text-xs font-bold text-slate-700">☀️ Sat</button>
-      <button id="mobDayBtn_SUN" onclick="setMobileDayView('SUN')" class="flex-1 py-2 rounded-xl text-xs font-bold text-slate-700">🌊 Sun</button>
+    <!-- Mobile Day Board Switcher -->
+    <div class="grid grid-cols-4 lg:hidden gap-1 bg-slate-200 p-1 rounded-2xl">
+      <button id="mobDayBtn_ALL" onclick="setMobileDayView('ALL')" class="py-2 rounded-xl text-xs font-extrabold bg-white text-slate-900 shadow whitespace-nowrap">All 3 Days</button>
+      <button id="mobDayBtn_FRI" onclick="setMobileDayView('FRI')" class="py-2 rounded-xl text-xs font-bold text-slate-700 whitespace-nowrap">🌅 Fri</button>
+      <button id="mobDayBtn_SAT" onclick="setMobileDayView('SAT')" class="py-2 rounded-xl text-xs font-bold text-slate-700 whitespace-nowrap">☀️ Sat</button>
+      <button id="mobDayBtn_SUN" onclick="setMobileDayView('SUN')" class="py-2 rounded-xl text-xs font-bold text-slate-700 whitespace-nowrap">🌊 Sun</button>
     </div>
 
     <!-- 3-Column Day Boards Grid (Friday, Saturday, Sunday) -->
@@ -353,6 +370,129 @@
       <div id="specialMedalsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5"></div>
     </div>
   </main>
+
+  <!-- ======================================================================== -->
+  <!-- CUSTOMIZABLE WEEKEND ITINERARY PRINT MODAL                               -->
+  <!-- ======================================================================== -->
+  <div id="itineraryPrintModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 no-print">
+    <div class="bg-white w-full max-w-xl rounded-t-3xl sm:rounded-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-5 bg-slate-900 text-white flex items-center justify-between">
+        <div>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-400 text-slate-950">Custom PDF Builder</span>
+          <h3 class="text-lg sm:text-xl font-extrabold mt-0.5">Print Weekend Itinerary</h3>
+        </div>
+        <button onclick="closeItineraryPrintModal()" class="tap-target w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center font-bold text-lg">✕</button>
+      </div>
+
+      <!-- Modal Scrollable Options -->
+      <div class="p-4 sm:p-5 overflow-y-auto space-y-5 flex-1">
+        <!-- Step 1: Quick Detail Preset Buttons -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">1. Choose Detail Level Preset</label>
+          <div class="grid grid-cols-2 gap-2.5">
+            <button id="presetSummaryBtn" onclick="applyPrintPreset('summary')"
+              class="tap-target p-3 rounded-2xl border-2 border-slate-200 text-left hover:border-teal-600 transition">
+              <div class="font-extrabold text-xs sm:text-sm text-slate-900">📋 Quick Overview</div>
+              <p class="text-[11px] text-slate-500 mt-0.5">Compact schedule with summaries, times & costs (no clues).</p>
+            </button>
+            <button id="presetFullBtn" onclick="applyPrintPreset('full')"
+              class="tap-target p-3 rounded-2xl border-2 border-teal-600 bg-teal-50/60 text-left transition">
+              <div class="font-extrabold text-xs sm:text-sm text-teal-950">📖 Full Mission Packet</div>
+              <p class="text-[11px] text-teal-800 mt-0.5">Complete guide with all clues, checkboxes, GPS & notes.</p>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Which Days / Boards to Include -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">2. Boards to Include in Printout</label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input id="printDay_FRI" type="checkbox" checked class="w-4 h-4 rounded text-teal-600" />
+              <span class="text-xs sm:text-sm font-bold text-slate-800">🌅 Friday Board</span>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input id="printDay_SAT" type="checkbox" checked class="w-4 h-4 rounded text-teal-600" />
+              <span class="text-xs sm:text-sm font-bold text-slate-800">☀️ Saturday Board</span>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input id="printDay_SUN" type="checkbox" checked class="w-4 h-4 rounded text-teal-600" />
+              <span class="text-xs sm:text-sm font-bold text-slate-800">🌊 Sunday Board</span>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer">
+              <input id="printDay_SHORTLIST" type="checkbox" class="w-4 h-4 rounded text-teal-600" />
+              <span class="text-xs sm:text-sm font-bold text-slate-800">⭐ Unassigned Shortlist</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Step 3: Granular Feature Checkboxes -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">3. Customize Included Features</label>
+          <div class="space-y-2">
+            <label class="flex items-center gap-3 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input id="printOpt_meta" type="checkbox" checked class="w-4 h-4 rounded text-teal-600" />
+              <div>
+                <div class="text-xs sm:text-sm font-bold text-slate-800">Estimated Time, Cost & Distance from Hotel</div>
+                <div class="text-[11px] text-slate-500">Shows duration, cost category, cluster, and mileage badge.</div>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input id="printOpt_summary" type="checkbox" checked class="w-4 h-4 rounded text-teal-600" />
+              <div>
+                <div class="text-xs sm:text-sm font-bold text-slate-800">2-Sentence Mission Summary</div>
+                <div class="text-[11px] text-slate-500">Includes the overview hook for each scavenger hunt.</div>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input id="printOpt_clues" type="checkbox" checked class="w-4 h-4 rounded text-teal-600" />
+              <div>
+                <div class="text-xs sm:text-sm font-bold text-slate-800">Full Scavenger Hunt Clues & Checkboxes</div>
+                <div class="text-[11px] text-slate-500">Prints all 4 field objectives per hunt with check-off boxes.</div>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input id="printOpt_links" type="checkbox" checked class="w-4 h-4 rounded text-teal-600" />
+              <div>
+                <div class="text-xs sm:text-sm font-bold text-slate-800">Starting GPS Coordinates & Official Website URLs</div>
+                <div class="text-[11px] text-slate-500">Prints exact latitude/longitude and venue web addresses.</div>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input id="printOpt_notes" type="checkbox" checked class="w-4 h-4 rounded text-teal-600" />
+              <div>
+                <div class="text-xs sm:text-sm font-bold text-slate-800">Saved Family Notes & Blank Write-In Lines</div>
+                <div class="text-[11px] text-slate-500">Includes any cloud notes you typed plus space for field jotting.</div>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input id="printOpt_pagebreak" type="checkbox" class="w-4 h-4 rounded text-teal-600" />
+              <div>
+                <div class="text-xs sm:text-sm font-bold text-slate-800">Start Each Day (Fri / Sat / Sun) on a New Page</div>
+                <div class="text-[11px] text-slate-500">Adds a clean page break between days so you can hand out one day at a time.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-2">
+        <button onclick="closeItineraryPrintModal()" class="tap-target px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-bold text-xs sm:text-sm">
+          Cancel
+        </button>
+        <button onclick="executeWeekendItineraryPrint()" class="tap-target flex-1 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shadow">
+          <span>🖨️ Generate Printable PDF</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- ======================================================================== -->
   <!-- HUNT DETAIL & MISSION BRIEFING MODAL                                     -->
@@ -463,27 +603,8 @@
     </div>
   </div>
 
-  <!-- PRINTABLE 8.5x11 WORKSHEET VIEW -->
-  <section id="printWorksheet" class="print-only p-4">
-    <div class="border-b-2 border-black pb-3 mb-4 flex justify-between items-start">
-      <div>
-        <div class="text-xs font-bold uppercase tracking-widest">Lowcountry Quest • Official Field Mission Sheet</div>
-        <h1 id="printTitle" class="text-2xl font-extrabold mt-1"></h1>
-        <div id="printMeta" class="text-sm mt-1"></div>
-      </div>
-      <div class="text-right text-xs">
-        <div><strong>Basecamp:</strong> Hyatt Place Mt. Pleasant</div>
-        <div id="printCoords"></div>
-      </div>
-    </div>
-    <p id="printSummary" class="text-sm italic mb-4"></p>
-    <h2 class="text-base font-bold uppercase border-b border-black pb-1 mb-3">Field Clues & Objectives</h2>
-    <div id="printClues" class="space-y-3 mb-6"></div>
-    <div class="border-2 border-black rounded-lg p-3 h-40">
-      <div class="text-xs font-bold uppercase mb-1">Field Agent Notes & Sketches:</div>
-      <div id="printSavedNotes" class="text-sm"></div>
-    </div>
-  </section>
+  <!-- DYNAMIC PRINT CONTAINER (Handles both Single Hunt Print & Full Weekend Itinerary Print) -->
+  <section id="printWorksheet" class="print-only p-2"></section>
 
   <script>
     // ============================================================================
@@ -845,7 +966,6 @@
       xp_points: 0
     };
 
-    // Restore day_boards if synced inside field_notes.__day_boards__
     if (appState.field_notes && appState.field_notes.__day_boards__ && Object.keys(appState.day_boards).length === 0) {
       appState.day_boards = appState.field_notes.__day_boards__;
     }
@@ -884,14 +1004,17 @@
         awards: { btn: 'tabAwardsBtn', view: 'awardsMainView' }
       };
 
+      const activeBtnClass = 'tap-target h-10 px-2 sm:px-4 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-1.5 whitespace-nowrap bg-white text-slate-950 shadow-sm';
+      const inactiveBtnClass = 'tap-target h-10 px-2 sm:px-4 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-1.5 whitespace-nowrap text-teal-100/90 hover:text-white hover:bg-white/10';
+
       Object.keys(tabs).forEach(key => {
         const btnEl = document.getElementById(tabs[key].btn);
         const viewEl = document.getElementById(tabs[key].view);
         if (key === tabName) {
-          btnEl.className = 'tap-target flex-1 sm:flex-initial px-3 sm:px-5 py-2 rounded-t-xl font-bold text-xs sm:text-sm transition bg-white text-slate-900 shadow flex items-center justify-center gap-1.5';
+          btnEl.className = activeBtnClass;
           viewEl.classList.remove('hidden');
         } else {
-          btnEl.className = 'tap-target flex-1 sm:flex-initial px-3 sm:px-5 py-2 rounded-t-xl font-bold text-xs sm:text-sm transition bg-white/10 text-teal-100 hover:bg-white/20 flex items-center justify-center gap-1.5';
+          btnEl.className = inactiveBtnClass;
           viewEl.classList.add('hidden');
         }
       });
@@ -1140,9 +1263,9 @@
       ['ALL', 'FRI', 'SAT', 'SUN'].forEach(code => {
         const btn = document.getElementById(`mobDayBtn_${code}`);
         if (code === day) {
-          btn.className = 'flex-1 py-2 rounded-xl text-xs font-extrabold bg-white text-slate-900 shadow';
+          btn.className = 'py-2 rounded-xl text-xs font-extrabold bg-white text-slate-900 shadow whitespace-nowrap';
         } else {
-          btn.className = 'flex-1 py-2 rounded-xl text-xs font-bold text-slate-700';
+          btn.className = 'py-2 rounded-xl text-xs font-bold text-slate-700 whitespace-nowrap';
         }
       });
       renderGamePlan();
@@ -1359,7 +1482,6 @@
       const hunts = window.CHARLESTON_HUNTS || [];
       const quickQuery = (document.getElementById('plannerQuickSearch')?.value || '').trim().toLowerCase();
 
-      // 1. Render Shortlist & Quick-Search Tray
       let trayHunts = [];
       if (quickQuery.length > 0) {
         trayHunts = hunts.filter(h =>
@@ -1374,8 +1496,8 @@
 
       if (trayHunts.length === 0) {
         trayEl.innerHTML = `
-          <div class="w-full py-4 text-center text-xs text-slate-500 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
-            No hunts in your Shortlist yet. Tap <strong>☆</strong> on any hunt card, type in the search box above, or tap <strong>✨ Load Recommended Starter Plan</strong>!
+          <div class="w-full py-4 px-3 text-center text-xs text-slate-500 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
+            No hunts in your Shortlist yet. Tap <strong>☆</strong> on any hunt card, type in the search box above, or tap <strong>✨ Starter Plan</strong>!
           </div>`;
       } else {
         trayEl.innerHTML = trayHunts.map(h => {
@@ -1405,31 +1527,27 @@
         }).join('');
       }
 
-      // 2. Render Friday, Saturday, Sunday Boards
       const boards = [
         {
           code: 'FRI',
           title: 'Friday Board',
           subtitle: 'Arrival & Evening Warm-Up',
           icon: '🌅',
-          headerBg: 'from-amber-600 to-amber-700',
-          badgeBg: 'bg-amber-100 text-amber-900'
+          headerBg: 'from-amber-600 to-amber-700'
         },
         {
           code: 'SAT',
           title: 'Saturday Board',
           subtitle: 'Full Day Lowcountry Adventure',
           icon: '☀️',
-          headerBg: 'from-teal-700 to-teal-800',
-          badgeBg: 'bg-teal-100 text-teal-900'
+          headerBg: 'from-teal-700 to-teal-800'
         },
         {
           code: 'SUN',
           title: 'Sunday Board',
           subtitle: 'Checkout Morning Finale',
           icon: '🌊',
-          headerBg: 'from-indigo-700 to-slate-800',
-          badgeBg: 'bg-indigo-100 text-indigo-900'
+          headerBg: 'from-indigo-700 to-slate-800'
         }
       ];
 
@@ -1450,7 +1568,6 @@
 
         return `
           <section class="bg-slate-100 rounded-3xl border border-slate-200/90 overflow-hidden shadow-sm flex flex-col">
-            <!-- Board Header -->
             <div class="bg-gradient-to-r ${b.headerBg} text-white p-4 flex items-center justify-between">
               <div>
                 <div class="text-[11px] uppercase tracking-wider font-semibold opacity-90">${b.subtitle}</div>
@@ -1465,7 +1582,6 @@
               </div>
             </div>
 
-            <!-- Board Cards List -->
             <div class="p-3 space-y-3 min-h-[220px]">
               ${dayHunts.length === 0 ? `
                 <div class="h-48 rounded-2xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center text-center p-4 text-slate-500">
@@ -1490,7 +1606,6 @@
       document.getElementById('trophyCluesCount').textContent = `${ctx.totalCluesDone} / ${ctx.hunts.length * 4}`;
       document.getElementById('trophyHuntsCount').textContent = `${ctx.completedHunts.length} / ${ctx.hunts.length}`;
 
-      // 1. Render 5-Tier Rank Ladder
       document.getElementById('rankLadderGrid').innerHTML = RANKS.map(r => {
         const unlocked = ctx.totalXp >= r.min;
         const isCurrent = ctx.totalXp >= r.min && ctx.totalXp <= r.max;
@@ -1508,7 +1623,6 @@
         `;
       }).join('');
 
-      // 2. Render Multi-Tier Mastery Series (Bronze / Silver / Gold)
       const uniqueClustersCompleted = new Set(ctx.completedHunts.map(h => h.cluster)).size;
 
       document.getElementById('seriesAwardsGrid').innerHTML = MASTERY_SERIES.map(s => {
@@ -1537,7 +1651,6 @@
               <p class="text-xs text-slate-600 mt-2">${s.desc}</p>
             </div>
 
-            <!-- Bronze / Silver / Gold Tier Pills -->
             <div class="space-y-2 pt-2 border-t border-slate-100">
               <div class="grid grid-cols-3 gap-1.5 text-center">
                 <div class="p-1.5 rounded-xl border text-xs font-bold ${hasBronze ? 'bg-amber-50 border-amber-400 text-amber-900' : 'bg-slate-50 border-slate-200 text-slate-400'}">
@@ -1562,7 +1675,6 @@
         `;
       }).join('');
 
-      // 3. Render 12 Collectible Special Achievement Medals
       document.getElementById('specialMedalsGrid').innerHTML = SPECIAL_MEDALS.map(m => {
         const unlocked = m.check(ctx);
         return `
@@ -1620,7 +1732,6 @@
       document.getElementById('modalMapsLink').href = h.google_maps_link;
       document.getElementById('modalNotesInput').value = appState.field_notes[h.id] || '';
 
-      // Render Official Place Hyperlinks in Modal
       const links = getPlaceLinksForHunt(h);
       document.getElementById('modalPlaceLinksRow').innerHTML = links.map(l => `
         <a href="${l.url}" target="_blank" rel="noopener noreferrer"
@@ -1735,26 +1846,218 @@
     }
 
     // ============================================================================
-    // 11. PRINTABLE 8.5x11 WORKSHEET & QR CODE MODAL
+    // 11. SINGLE HUNT PRINT & CUSTOMIZABLE WEEKEND ITINERARY PRINT ENGINE
     // ============================================================================
     function printCurrentHunt() {
       const h = (window.CHARLESTON_HUNTS || []).find(item => item.id === activeHuntId);
       if (!h) return;
-      document.getElementById('printTitle').textContent = h.title;
-      document.getElementById('printMeta').textContent =
-        `Cluster: ${h.cluster} | Theme: ${h.theme} | Est. Time: ${h.est_time_minutes} mins | Cost: ${h.cost_category}`;
-      document.getElementById('printCoords').textContent = `Start GPS: ${h.start_lat}, ${h.start_lng}`;
-      document.getElementById('printSummary').textContent = h.summary;
-      document.getElementById('printSavedNotes').textContent = appState.field_notes[h.id] || '';
-      document.getElementById('printClues').innerHTML = h.clues.map((c, i) => `
-        <div class="flex items-start gap-3 text-sm">
-          <div class="w-5 h-5 border-2 border-black rounded flex-shrink-0 mt-0.5"></div>
-          <div><strong>Objective #${i + 1}:</strong> ${c}</div>
+      const dist = haversineMiles(HOTEL_BASECAMP.lat, HOTEL_BASECAMP.lng, h.start_lat, h.start_lng).toFixed(1);
+      const links = getPlaceLinksForHunt(h);
+      const savedNote = appState.field_notes[h.id] || '';
+
+      document.getElementById('printWorksheet').innerHTML = `
+        <div class="border-b-2 border-black pb-3 mb-4 flex justify-between items-start">
+          <div>
+            <div class="text-xs font-bold uppercase tracking-widest">Lowcountry Quest • Official Field Mission Sheet</div>
+            <h1 class="text-2xl font-extrabold mt-1">${h.title}</h1>
+            <div class="text-xs mt-1 font-medium">
+              Cluster: ${h.cluster} | Theme: ${h.theme} | Est. Time: ${h.est_time_minutes} mins | Cost: ${h.cost_category} | ${dist} mi from Hyatt
+            </div>
+          </div>
+          <div class="text-right text-xs">
+            <div><strong>Basecamp:</strong> Hyatt Place Mt. Pleasant</div>
+            <div>Start GPS: ${h.start_lat}, ${h.start_lng}</div>
+          </div>
         </div>
-      `).join('');
+        <p class="text-sm italic mb-3">${h.summary}</p>
+        <div class="text-xs mb-4">
+          <strong>Official Links:</strong> ${links.map(l => `${l.label} (${l.url})`).join(' • ')}
+        </div>
+        <h2 class="text-sm font-bold uppercase border-b border-black pb-1 mb-3">Field Clues & Objectives</h2>
+        <div class="space-y-2.5 mb-5">
+          ${h.clues.map((c, i) => {
+            const done = !!appState.checked_clues[`${h.id}_${i}`];
+            return `
+              <div class="flex items-start gap-2.5 text-sm">
+                <div class="w-4 h-4 border-2 border-black rounded-xs flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">${done ? '✓' : ''}</div>
+                <div><strong>Objective #${i + 1}:</strong>${c}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        <div class="border-2 border-black rounded-lg p-3 h-36">
+          <div class="text-xs font-bold uppercase mb-1">Field Agent Notes & Sketches:</div>
+          <div class="text-sm whitespace-pre-wrap">${savedNote}</div>
+        </div>
+      `;
       window.print();
     }
 
+    function openItineraryPrintModal() {
+      const plannedCount = Object.keys(appState.day_boards || {}).length;
+      if (plannedCount === 0 && appState.shortlist.length > 0) {
+        document.getElementById('printDay_SHORTLIST').checked = true;
+      }
+      document.getElementById('itineraryPrintModal').classList.remove('hidden');
+    }
+
+    function closeItineraryPrintModal() {
+      document.getElementById('itineraryPrintModal').classList.add('hidden');
+    }
+
+    function applyPrintPreset(mode) {
+      const summaryBtn = document.getElementById('presetSummaryBtn');
+      const fullBtn = document.getElementById('presetFullBtn');
+
+      if (mode === 'summary') {
+        summaryBtn.className = 'tap-target p-3 rounded-2xl border-2 border-teal-600 bg-teal-50/60 text-left transition';
+        fullBtn.className = 'tap-target p-3 rounded-2xl border-2 border-slate-200 text-left hover:border-teal-600 transition';
+        document.getElementById('printOpt_meta').checked = true;
+        document.getElementById('printOpt_summary').checked = true;
+        document.getElementById('printOpt_clues').checked = false;
+        document.getElementById('printOpt_links').checked = false;
+        document.getElementById('printOpt_notes').checked = false;
+        document.getElementById('printOpt_pagebreak').checked = false;
+      } else {
+        fullBtn.className = 'tap-target p-3 rounded-2xl border-2 border-teal-600 bg-teal-50/60 text-left transition';
+        summaryBtn.className = 'tap-target p-3 rounded-2xl border-2 border-slate-200 text-left hover:border-teal-600 transition';
+        document.getElementById('printOpt_meta').checked = true;
+        document.getElementById('printOpt_summary').checked = true;
+        document.getElementById('printOpt_clues').checked = true;
+        document.getElementById('printOpt_links').checked = true;
+        document.getElementById('printOpt_notes').checked = true;
+      }
+    }
+
+    function executeWeekendItineraryPrint() {
+      const hunts = window.CHARLESTON_HUNTS || [];
+      const incFri = document.getElementById('printDay_FRI').checked;
+      const incSat = document.getElementById('printDay_SAT').checked;
+      const incSun = document.getElementById('printDay_SUN').checked;
+      const incShortlist = document.getElementById('printDay_SHORTLIST').checked;
+
+      const optMeta = document.getElementById('printOpt_meta').checked;
+      const optSummary = document.getElementById('printOpt_summary').checked;
+      const optClues = document.getElementById('printOpt_clues').checked;
+      const optLinks = document.getElementById('printOpt_links').checked;
+      const optNotes = document.getElementById('printOpt_notes').checked;
+      const optPageBreak = document.getElementById('printOpt_pagebreak').checked;
+
+      const sections = [];
+      if (incFri) {
+        sections.push({
+          title: '🌅 Friday Game Plan • Arrival & Evening Warm-Up',
+          items: hunts.filter(h => appState.day_boards[h.id] === 'FRI')
+        });
+      }
+      if (incSat) {
+        sections.push({
+          title: '☀️ Saturday Game Plan • Full Day Lowcountry Adventure',
+          items: hunts.filter(h => appState.day_boards[h.id] === 'SAT')
+        });
+      }
+      if (incSun) {
+        sections.push({
+          title: '🌊 Sunday Game Plan • Checkout Morning Finale',
+          items: hunts.filter(h => appState.day_boards[h.id] === 'SUN')
+        });
+      }
+      if (incShortlist) {
+        sections.push({
+          title: '⭐ Unassigned Shortlist Hunts',
+          items: hunts.filter(h => appState.shortlist.includes(h.id) && !appState.day_boards[h.id])
+        });
+      }
+
+      const nonEmptySections = sections.filter(s => s.items.length > 0);
+      if (nonEmptySections.length === 0) {
+        alert('No hunts are assigned to the selected boards yet! Assign hunts to Fri/Sat/Sun (or tap "✨ Starter Plan") before printing.');
+        return;
+      }
+
+      const totalHuntsCount = nonEmptySections.reduce((acc, s) => acc + s.items.length, 0);
+      const totalMinutes = nonEmptySections.reduce((acc, s) => acc + s.items.reduce((m, h) => m + h.est_time_minutes, 0), 0);
+
+      const htmlParts = [];
+
+      // Master Itinerary Header
+      htmlParts.push(`
+        <div class="border-b-2 border-black pb-3 mb-4 flex justify-between items-start">
+          <div>
+            <div class="text-[11px] font-bold uppercase tracking-widest">Lowcountry Quest • Custom Family Weekend Itinerary</div>
+            <h1 class="text-2xl font-extrabold mt-0.5">Charleston & Mount Pleasant Game Plan</h1>
+            <div class="text-xs mt-1">Basecamp: <strong>Hyatt Place Mount Pleasant Towne Centre</strong> (1600 Palmetto Grande Dr)</div>
+          </div>
+          <div class="text-right text-xs">
+            <div><strong>Planned Quests:</strong> ${totalHuntsCount} Hunts</div>
+            <div><strong>Total Est. Time:</strong> ${(totalMinutes / 60).toFixed(1)} hrs (${totalMinutes} mins)</div>
+          </div>
+        </div>
+      `);
+
+      nonEmptySections.forEach((sec, secIdx) => {
+        const dayMins = sec.items.reduce((m, h) => m + h.est_time_minutes, 0);
+        const breakClass = (secIdx > 0 && optPageBreak) ? 'page-break-before' : 'mt-5';
+
+        htmlParts.push(`
+          <div class="${breakClass}">
+            <div class="bg-slate-100 border-y-2 border-black px-3 py-1.5 mb-3 flex items-center justify-between">
+              <h2 class="text-base font-extrabold uppercase">${sec.title}</h2>
+              <span class="text-xs font-bold">${sec.items.length} Hunts • ${(dayMins / 60).toFixed(1)} hrs</span>
+            </div>
+            <div class="space-y-3">
+              ${sec.items.map((h, i) => {
+                const dist = haversineMiles(HOTEL_BASECAMP.lat, HOTEL_BASECAMP.lng, h.start_lat, h.start_lng).toFixed(1);
+                const links = getPlaceLinksForHunt(h);
+                const savedNote = appState.field_notes[h.id] || '';
+
+                return `
+                  <div class="avoid-break border border-black rounded-lg p-3">
+                    <div class="flex items-start justify-between gap-2">
+                      <div class="font-extrabold text-sm">${i + 1}. ${h.title}</div>${optMeta ? `<div class="text-xs font-bold shrink-0">⏱️ ${h.est_time_minutes}m | 💵 ${h.cost_category} | 📍 ${dist} mi</div>` : ''}
+                    </div>
+                    ${optMeta ? `<div class="text-[11px] text-slate-700 mt-0.5">Cluster: ${h.cluster} • Theme: ${h.theme}</div>` : ''}
+                    ${optSummary ? `<p class="text-xs italic mt-1.5">${h.summary}</p>` : ''}
+                    ${optLinks ? `
+                      <div class="text-[11px] mt-1.5">
+                        <strong>Start GPS:</strong> ${h.start_lat}, ${h.start_lng}
+                        ${links.length ? ` | <strong>Web:</strong> ${links.map(l => `${l.label} (${l.url})`).join(', ')}` : ''}
+                      </div>
+                    ` : ''}
+                    ${optClues ? `
+                      <div class="mt-2 pt-2 border-t border-slate-300 space-y-1.5">
+                        ${h.clues.map((clue, cIdx) => {
+                          const done = !!appState.checked_clues[`${h.id}_${cIdx}`];
+                          return `
+                            <div class="flex items-start gap-2 text-xs">
+                              <div class="w-3.5 h-3.5 border border-black rounded-2xs flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">${done ? '✓' : ''}</div>
+                              <div><strong>Clue #${cIdx + 1}:</strong>${clue}</div>
+                            </div>
+                          `;
+                        }).join('')}
+                      </div>
+                    ` : ''}
+                    ${optNotes ? `
+                      <div class="mt-2 pt-1.5 border-t border-dashed border-slate-400 text-[11px]">
+                        <strong>Field Notes:</strong> ${savedNote ? savedNote : '____________________________________________________________________________'}
+                      </div>
+                    ` : ''}
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `);
+      });
+
+      document.getElementById('printWorksheet').innerHTML = htmlParts.join('');
+      closeItineraryPrintModal();
+      setTimeout(() => window.print(), 150);
+    }
+
+    // ============================================================================
+    // 12. QR CODE MODAL
+    // ============================================================================
     function openQrModal() {
       const container = document.getElementById('qrCodeContainer');
       container.innerHTML = '';
