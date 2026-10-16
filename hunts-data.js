@@ -538,5 +538,366 @@ window.CHARLESTON_HUNTS = [
       "Find the oversized wooden rocking chairs or Adirondack chairs facing Bohicket Creek and take a relaxed family photo.",
       "Watch the creek tide flowing toward the North Edisto River and look for a bottlenose dolphin 'strand feeding' along the mudbank."
     ]
+  },
+  {
+    "id": "hunt_31",
+    "title": "Mount Pleasant Fossil Sluice & Putter Challenge",
+    "cluster": "Towne Centre & Nearby",
+    "theme": "Photo Ops",
+    "summary": "Just 3 minutes north of your hotel at Charleston Fun Park, pan for prehistoric shark teeth in a rushing water sluice and conquer trick-shot mini-golf obstacles.",
+    "est_time_minutes": 60,
+    "cost_category": "Under $20",
+    "start_lat": 32.8529,
+    "start_lng": -79.8058,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8529,-79.8058",
+    "clues": [
+      "Locate the wooden water mining sluice and spot the identification chart showing fossilized shark teeth and gemstones.",
+      "Find the most challenging water hazard or elevation drop on the 18-hole miniature golf course and see who in the family scores low.",
+      "Spot the outdoor go-kart track hairpin turn and time how many seconds a kart takes to complete one full lap.",
+      "Find the giant prize or arcade entrance sign and take a victory photo with your best mini-golf scorecard."
+    ]
+  },
+  {
+    "id": "hunt_32",
+    "title": "Laurel Hill Oak Allee & Bluebird Trail",
+    "cluster": "North Mt. Pleasant & Backwater",
+    "theme": "Nature",
+    "summary": "Explore a quiet, 745-acre Mount Pleasant nature preserve less than 10 minutes from your hotel featuring a towering live oak allee and lakeside meadows.",
+    "est_time_minutes": 60,
+    "cost_category": "Free",
+    "start_lat": 32.8711,
+    "start_lng": -79.7915,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8711,-79.7915",
+    "clues": [
+      "Walk down the main sandy trail until you enter the symmetrical 'Oak Allee' tunnel and count at least 12 ancient live oaks lining the path.",
+      "Spot one of the wooden Eastern Bluebird nesting boxes mounted in the open grassy meadow and check if birds are perched nearby.",
+      "Follow the trail out to the freshwater lake overlook and watch the surface for dragonflies skimming the water.",
+      "Find a pine cone along the forest floor that is larger than your 10-year-old's hand (from a native Longleaf or Loblolly pine)."
+    ]
+  },
+  {
+    "id": "hunt_33",
+    "title": "Wannamaker Tupelo Lagoon & Cypress Hall",
+    "cluster": "North Mt. Pleasant & Backwater",
+    "theme": "Nature",
+    "summary": "Venture through shaded boardwalks over tupelo gum swamps and massive rolling hills at North Charleston Wannamaker County Park.",
+    "est_time_minutes": 60,
+    "cost_category": "Under $20",
+    "start_lat": 32.9774,
+    "start_lng": -80.0494,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.9774,-80.0494",
+    "clues": [
+      "Walk out onto the wooden boardwalk crossing the blackwater lagoon and spot the swollen, flared bases of Water Tupelo trees.",
+      "Look down into the calm water near submerged logs to spot a yellow-bellied slider turtle or sunfish.",
+      "Find the giant grassy activity hill near the playground area and race to the top.",
+      "Locate a trail mile-marker post and determine which direction leads back toward Cypress Hall."
+    ]
+  },
+  {
+    "id": "hunt_34",
+    "title": "Center for Birds of Prey Raptor Recon",
+    "cluster": "North Mt. Pleasant & Backwater",
+    "theme": "Nature",
+    "summary": "Head 20 minutes north up Highway 17 to Awendaw to come face-to-face with Bald Eagles, Peregrine Falcons, and nocturnal owls.",
+    "est_time_minutes": 90,
+    "cost_category": "Paid Admission Required",
+    "start_lat": 32.9765,
+    "start_lng": -79.6890,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.9765,-79.6890",
+    "clues": [
+      "Walk the Owl Wood trail and spot an owl with prominent feather tufts ('ear tufts') like a Great Horned Owl or Eastern Screech-Owl.",
+      "Find the enclosure housing the Bald Eagle or Golden Eagle and compare the size of its yellow talons to your hand.",
+      "At the open flight demonstration field, watch how Raptors use thermal air currents or low swoops between the wooden perches.",
+      "Read a species plaque to discover which bird of prey is the fastest animal on planet Earth in a dive."
+    ]
+  },
+  {
+    "id": "hunt_35",
+    "title": "Mystery of the 4,000-Year-Old Sewee Shell Ring",
+    "cluster": "North Mt. Pleasant & Backwater",
+    "theme": "Historical",
+    "summary": "Hike a shady coastal forest loop in Francis Marion National Forest to a prehistoric Native American monument built from millions of ancient oyster shells.",
+    "est_time_minutes": 60,
+    "cost_category": "Free",
+    "start_lat": 32.9922,
+    "start_lng": -79.6486,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.9922,-79.6486",
+    "clues": [
+      "Follow the shell-and-dirt path through the coastal forest until you reach the wooden boardwalk spanning the prehistoric Sewee Shell Ring.",
+      "Look down at the raised circular ridge of white shells and find out how many thousands of years ago (around 2,000 B.C.) it was piled here.",
+      "Step out onto the viewing deck overlooking the salt marsh and Copahee Sound—spot the barrier islands on the horizon.",
+      "Identify 3 different shell types (oyster, clam, and periwinkle) embedded in the ancient ring floor."
+    ]
+  },
+  {
+    "id": "hunt_36",
+    "title": "Winnowing Hands & Remley's Point Boat Watch",
+    "cluster": "Patriots Point & Shem Creek",
+    "theme": "Historical",
+    "summary": "Discover Mount Pleasant's towering 22-foot bronze rice-harvesting sculpture near the Ravenel Bridge and watch boats launch into the Cooper River.",
+    "est_time_minutes": 30,
+    "cost_category": "Free",
+    "start_lat": 32.8016,
+    "start_lng": -79.8973,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8016,-79.8973",
+    "clues": [
+      "Spot the monumental 22-foot bronze 'Winnowing Hands' sculpture at the foot of the bridge gateway holding a traditional fanner basket.",
+      "Look closely at the cascading bronze streams falling from the basket symbolizing Carolina Gold rice tossed into the wind.",
+      "Head over to nearby Remley's Point Boat Landing on the Cooper River and watch a boat trailer launch or retrieve a vessel.",
+      "Frame a photo of the Ravenel Bridge's eastern diamond tower rising directly above the marsh grass."
+    ]
+  },
+  {
+    "id": "hunt_37",
+    "title": "Alhambra Hall & Old Village Bluff Overlook",
+    "cluster": "Patriots Point & Shem Creek",
+    "theme": "Architecture",
+    "summary": "Explore the high grassy bluff in Mount Pleasant's historic Old Village where a 19th-century ferry terminal once operated.",
+    "est_time_minutes": 40,
+    "cost_category": "Free",
+    "start_lat": 32.7797,
+    "start_lng": -79.8732,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7797,-79.8732",
+    "clues": [
+      "Stand before the white arches and wide upstairs wrap-around porch of Alhambra Hall (originally built in 1937 using bricks from an old warehouse).",
+      "Walk across the expansive green lawn to the harbor bluff edge and spot Castle Pinckney (the tiny island fort with a flag) out in the water.",
+      "Test the shady oak-covered playground right beside the hall and find the climbing apparatus.",
+      "Walk one block down Middle Street or Royall Avenue to spot a historic Old Village home with colorful painted hurricane shutters."
+    ]
+  },
+  {
+    "id": "hunt_38",
+    "title": "Patriots Point Vietnam Base Camp & Huey Recon",
+    "cluster": "Patriots Point & Shem Creek",
+    "theme": "Military",
+    "summary": "Step inside the 2.5-acre landside Naval Support Base at Patriots Point to inspect Huey helicopters, a Brown Water Navy patrol boat, and a lookout tower.",
+    "est_time_minutes": 45,
+    "cost_category": "Paid Admission Required",
+    "start_lat": 32.7895,
+    "start_lng": -79.9070,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7895,-79.9070",
+    "clues": [
+      "Cross the rope-and-wood suspension bridge at the entrance to the Vietnam Experience Exhibit.",
+      "Locate the fiberglass PBR (Patrol Boat, River) sitting in the lagoon and count its twin .50-caliber machine gun mounts.",
+      "Find the iconic Bell UH-1 'Huey' Medevac or gunship helicopter and inspect the rotor blades up close.",
+      "Before leaving the landside park, visit the Cold War Submarine Memorial nearby and examine the real submarine sail fins."
+    ]
+  },
+  {
+    "id": "hunt_39",
+    "title": "Thomson Park Breach Inlet Ship & Porpoise Watch",
+    "cluster": "Sullivan's & IOP Beaches",
+    "theme": "Photo Ops",
+    "summary": "Stand at the northern tip of Sullivan's Island where Revolutionary War soldiers defended the sandbar crossing against British troops in 1776.",
+    "est_time_minutes": 30,
+    "cost_category": "Free",
+    "start_lat": 32.7752,
+    "start_lng": -79.8130,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7752,-79.8130",
+    "clues": [
+      "Find the historical marker honoring Colonel William Thomson and his 780 rangers and militia who guarded Breach Inlet on June 28, 1776.",
+      "Walk out onto the sandy spit where the Atlantic waves collide with the inlet current and snap a photo of the crashing whitewater.",
+      "Scan the deep water channel between the two islands for bottle-nosed dolphins hunting schools of menhaden fish.",
+      "Count how many houses on the Isle of Palms side across the bridge are built on tall hurricane pilings."
+    ]
+  },
+  {
+    "id": "hunt_40",
+    "title": "Battery Gadsden & The Bunker Library Mystery",
+    "cluster": "Sullivan's & IOP Beaches",
+    "theme": "Military",
+    "summary": "Uncover the massive 1904 concrete coastal artillery bunkers hidden in the residential heart of Sullivan's Island—one of which is now a public library!",
+    "est_time_minutes": 40,
+    "cost_category": "Free",
+    "start_lat": 32.7608,
+    "start_lng": -79.8452,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7608,-79.8452",
+    "clues": [
+      "Locate the Edgar Allan Poe Branch Library (1921 I'On Ave) and verify how it was built inside a former 1898 Spanish-American War four-mortar battery!",
+      "Walk one block over to Battery Gadsden (built in 1904 for four 6-inch disappearing guns) and climb the concrete steps to the upper gun emplacements.",
+      "Find the thick steel blast doors or ammunition hoist openings built into the concrete walls.",
+      "Spot the nearby Sullivan's Island mound (Battery Thomson) rising like a giant grassy hill beside the beach path."
+    ]
+  },
+  {
+    "id": "hunt_41",
+    "title": "Gadsdenboro Park Giant Pergola & Turf Dash",
+    "cluster": "Historic Downtown & Battery",
+    "theme": "Photo Ops",
+    "summary": "Burn off energy at Charleston's sleekest modern downtown park near the Aquarium before checking out the historic brick wharf edge.",
+    "est_time_minutes": 30,
+    "cost_category": "Free",
+    "start_lat": 32.7901,
+    "start_lng": -79.9278,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7901,-79.9278",
+    "clues": [
+      "Find the towering white modern shade pergolas lining Calhoun and Concord Streets and relax on one of the oversized porch swings.",
+      "Step onto the huge artificial turf lawn and see who can do the longest standing broad jump.",
+      "Locate the interactive splash fountain jets built into the stone plaza pavement.",
+      "Walk across Concord Street toward the water's edge to spot the massive historic brick rice mill smokestack nearby."
+    ]
+  },
+  {
+    "id": "hunt_42",
+    "title": "Circular Graveyard & 300-Year-Old Slate Carvings",
+    "cluster": "Historic Downtown & Battery",
+    "theme": "Historical",
+    "summary": "Explore Charleston's oldest burial ground (dating back to 1695) on Meeting Street to decode colonial stone carvings and Revolutionary history.",
+    "est_time_minutes": 40,
+    "cost_category": "Free",
+    "start_lat": 32.7793,
+    "start_lng": -79.9309,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7793,-79.9309",
+    "clues": [
+      "Outside Circular Congregational Church (150 Meeting St), admire the rare Romanesque domed church design with no right angles.",
+      "From the public garden path, spot an ancient dark gray slate gravestone shipped from New England in the 1700s.",
+      "Walk south to St. Michael's Church (corner of Meeting & Broad) and look up at the 186-foot white steeple that served as a lighthouse landmark for ships.",
+      "Inside St. Michael's churchyard wall, find the historic marker for Constitution signer Charles Cotesworth Pinckney."
+    ]
+  },
+  {
+    "id": "hunt_43",
+    "title": "The Old Exchange & Provost Pirate Dungeon",
+    "cluster": "Historic Downtown & Battery",
+    "theme": "Historical",
+    "summary": "Stand at the 1771 Georgian Exchange building at the foot of Broad Street where confiscated British tea was locked away and pirates were imprisoned.",
+    "est_time_minutes": 45,
+    "cost_category": "Paid Admission Required",
+    "start_lat": 32.7769,
+    "start_lng": -79.9269,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7769,-79.9269",
+    "clues": [
+      "Stand at the east facade of the Old Exchange Building (122 East Bay St)—in 1771, Charleston's harbor water came right up to this street!",
+      "Find the bronze historical plaque showing where George Washington stood during his 1791 southern tour.",
+      "Descend into the brick-vaulted Provost Dungeon (or peek through the ground-level barred grates) to see the original 1780 colonial brick arches.",
+      "Locate the remnant of Charleston's 1690 Half-Moon Battery brick defensive wall preserved inside the dungeon floor."
+    ]
+  },
+  {
+    "id": "hunt_44",
+    "title": "Charleston Museum Giant Seabird & Monster Fossils",
+    "cluster": "Historic Downtown & Battery",
+    "theme": "Historical",
+    "summary": "Inside America's First Museum (founded in 1773), track down a 25-million-year-old giant toothed bird, megalodon jaws, and an Egyptian mummy.",
+    "est_time_minutes": 75,
+    "cost_category": "Paid Admission Required",
+    "start_lat": 32.7891,
+    "start_lng": -79.9355,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7891,-79.9355",
+    "clues": [
+      "Look up in the Natural History gallery to spot 'Pelagornis sandersi'—the largest flying bird ever discovered, found right in Charleston with an 21-foot wingspan!",
+      "Compare your hand to a fossilized Megalodon shark tooth dug up from Lowcountry riverbeds.",
+      "In the Armory gallery, find an authentic Civil War sword or uniform and a miniature model of the H.L. Hunley submarine.",
+      "Outside in the courtyard or lobby, find the massive iron brewery kettle or historic wooden farm machinery."
+    ]
+  },
+  {
+    "id": "hunt_45",
+    "title": "High Battery Mansion Crests & Cannonball Scars",
+    "cluster": "Historic Downtown & Battery",
+    "theme": "Architecture",
+    "summary": "Walk the breezy stone seawall promenade along East Battery to hunt for rooftop spyglass cupolas, family coats of arms, and iron palmetto gates.",
+    "est_time_minutes": 45,
+    "cost_category": "Free",
+    "start_lat": 32.7715,
+    "start_lng": -79.9281,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7715,-79.9281",
+    "clues": [
+      "Look up at the third-story parapet of the Edmondston-Alston House (21 East Battery) to spot the carved Alston family coat of arms.",
+      "Count how many mansions along East Battery have a rooftop 'cupola' or 'widow's walk' used for catching sea breezes and spotting ships.",
+      "Find a wrought-iron fence or gate featuring a cast-iron Palmetto tree crest.",
+      "Look down over the stone seawall at low tide to spot crab traps or pelicans resting on the granite riprap boulders."
+    ]
+  },
+  {
+    "id": "hunt_46",
+    "title": "Secret Lab of the H.L. Hunley Submarine",
+    "cluster": "Historic Downtown & Battery",
+    "theme": "Military",
+    "summary": "On weekends at the Warren Lasch Conservation Center (18 minutes from your hotel), see the real 1864 hand-cranked submarine raised from the ocean floor.",
+    "est_time_minutes": 75,
+    "cost_category": "Paid Admission Required",
+    "start_lat": 32.8562,
+    "start_lng": -79.9612,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8562,-79.9612",
+    "clues": [
+      "Peer into the 75,000-gallon conservation tank to view the actual 40-foot iron hull of the H.L. Hunley submarine recovered in 2000.",
+      "Climb inside the life-sized interactive hull mock-up and test how fast your family can turn the heavy iron hand cranks.",
+      "Find the exhibit showing Commander George Dixon's famous $20 gold coin that was bent by a bullet at Shiloh and found inside the sub.",
+      "Examine facial reconstructions of the 8 crew members and find out how they used a single candle to monitor oxygen levels underwater."
+    ]
+  },
+  {
+    "id": "hunt_47",
+    "title": "North Charleston Riverfront Naval Base Memorial",
+    "cluster": "Historic Downtown & Battery",
+    "theme": "Military",
+    "summary": "Explore a scenic park on the banks of the Cooper River at the former Charleston Naval Base featuring giant ship anchors, bronze sailors, and river boardwalks.",
+    "est_time_minutes": 45,
+    "cost_category": "Free",
+    "start_lat": 32.8661,
+    "start_lng": -79.9628,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8661,-79.9628",
+    "clues": [
+      "Find the Greater Charleston Naval Base Memorial and walk between the towering steel 'ship bow' monument walls.",
+      "Locate the life-sized bronze statue of the 'Lone Sailor' standing watch with his sea bag beside him.",
+      "Walk out onto the curving over-water boardwalk along the Cooper River and watch tugboats pushing barges upstream.",
+      "Spot at least 3 large outdoor contemporary sculptures scattered across the grassy riverfront lawn."
+    ]
+  },
+  {
+    "id": "hunt_48",
+    "title": "Magnolia Plantation White Bridge & Peacock Patrol",
+    "cluster": "West Ashley, James & Johns Island",
+    "theme": "Nature",
+    "summary": "Roam America's oldest public gardens along the Ashley River to track down free-roaming peacocks, romantic footbridges, and swamp observation towers.",
+    "est_time_minutes": 90,
+    "cost_category": "Paid Admission Required",
+    "start_lat": 32.8778,
+    "start_lng": -80.0825,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.8778,-80.0825",
+    "clues": [
+      "Spot a colorful free-roaming peacock strolling the grounds or perched in a low tree branch near the main house.",
+      "Cross the famous curved white wooden footbridge over the dark cypress pond and capture its reflection in the water.",
+      "Walk into the Audubon Swamp Garden and climb the wooden observation tower overlooking the alligator pond.",
+      "Find the wooden labyrinth hedge maze and race to see who reaches the center gazebo first."
+    ]
+  },
+  {
+    "id": "hunt_49",
+    "title": "McLeod Oak & Wappoo Creek Earthworks",
+    "cluster": "West Ashley, James & Johns Island",
+    "theme": "Historical",
+    "summary": "Explore a preserved 37-acre Sea Island cotton site on James Island featuring a towering 600-year-old oak tree and a breezy creekside pavilion.",
+    "est_time_minutes": 60,
+    "cost_category": "Under $20",
+    "start_lat": 32.7675,
+    "start_lng": -79.9675,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7675,-79.9675",
+    "clues": [
+      "Stand beneath the colossal McLeod Oak near the entrance—its trunk measures more than 27 feet in circumference!",
+      "Walk the row of 19th-century white wooden cabins along the oak avenue and read the historical plaques.",
+      "Head down to the open-air pavilion on the banks of Wappoo Creek and watch boats passing through the Intracoastal Waterway cut.",
+      "Spot the grassy mounds near the water that were built as Civil War artillery earthworks."
+    ]
+  },
+  {
+    "id": "hunt_50",
+    "title": "Sunrise Park Hidden Harbor Beach & Shell Bluff",
+    "cluster": "West Ashley, James & Johns Island",
+    "theme": "Nature",
+    "summary": "Visit Charleston's best-kept local secret—Melton Peter Demetre Park on James Island—for a hidden sandy harbor beach with front-row views of cargo ships.",
+    "est_time_minutes": 45,
+    "cost_category": "Free",
+    "start_lat": 32.7525,
+    "start_lng": -79.9234,
+    "google_maps_link": "https://www.google.com/maps/search/?api=1&query=32.7525,-79.9234",
+    "clues": [
+      "Descend the wooden stairs from the bluff down onto the pocket sandy beach facing Charleston Harbor.",
+      "Walk out onto the long floating dock and line up the Ravenel Bridge, the USS Yorktown, and the Downtown church steeples in one view.",
+      "Check the tide-washed sand and oyster shells along the bluff base for small hermit crabs or fossilized shells.",
+      "Watch a giant container ship or harbor pilot boat cruise past just a few hundred yards offshore."
+    ]
   }
+);
 ];
