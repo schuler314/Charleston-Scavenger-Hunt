@@ -10,11 +10,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <!-- Load separated hunt dataset -->
+  <!-- Load separated 50-hunt dataset -->
   <script src="hunts-data.js"></script>
 
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; overflow-x: hidden; }
     h1, h2, h3, .font-heading { font-family: 'Poppins', sans-serif; }
     .tap-target { min-height: 44px; min-width: 44px; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -31,75 +31,145 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- TOP GAMIFICATION & CLOUD SYNC HEADER -->
-  <header class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 text-white shadow-lg no-print">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div class="flex items-start sm:items-center justify-between gap-3">
+  <!-- TOP GAMIFICATION & CLOUD SYNC HEADER (Scrolls away naturally on mobile to save screen space) -->
+  <header class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 text-white shadow-md no-print">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div class="flex items-center justify-between gap-2">
         <div>
           <div class="flex items-center gap-2">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-400 text-slate-950">Charleston & Mt. Pleasant</span>
-            <button id="syncStatusBtn" onclick="pullFromSupabase(true)" class="tap-target px-2.5 py-1 rounded-full text-xs font-medium bg-white/10 hover:bg-white/20 flex items-center gap-1.5 transition" title="Tap to force sync with Supabase">
+            <span class="px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-400 text-slate-950">50 Quests</span>
+            <button id="syncStatusBtn" onclick="pullFromSupabase(true)" class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-white/10 hover:bg-white/20 flex items-center gap-1.5 transition" title="Tap to force sync with Supabase">
               <span id="syncDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
               <span id="syncText">Connecting...</span>
             </button>
           </div>
-          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1">Lowcountry Quest</h1>
-          <p class="text-xs sm:text-sm text-teal-200">Basecamp: Hyatt Place Mount Pleasant Towne Centre</p>
+          <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight mt-0.5">Lowcountry Quest</h1>
+          <p class="text-[11px] sm:text-xs text-teal-200">Basecamp: Hyatt Place Mount Pleasant Towne Centre</p>
         </div>
+
+        <!-- Mobile QR Button -->
+        <button onclick="openQrModal()" class="md:hidden tap-target px-3 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow">
+          <span>📱 QR</span>
+        </button>
       </div>
 
-      <!-- XP & Rank Progression Card + QR Button -->
-      <div class="flex flex-wrap items-center gap-3 bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/15">
-        <div class="flex items-center gap-3 pr-3 border-r border-white/15">
-          <div id="rankIcon" class="w-11 h-11 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center text-2xl font-bold shadow">🌴</div>
+      <!-- Compact XP & Rank Progression Card -->
+      <div class="flex items-center justify-between gap-3 bg-white/10 backdrop-blur-md px-3 py-2 rounded-2xl border border-white/15">
+        <div class="flex items-center gap-2.5">
+          <div id="rankIcon" class="w-9 h-9 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center text-xl font-bold shadow">🌴</div>
           <div>
-            <div class="text-[11px] uppercase tracking-wider text-teal-200 font-semibold">Family Rank</div>
-            <div id="rankTitle" class="text-sm sm:text-base font-bold text-white leading-tight">Palmetto Recruit</div>
-            <div class="flex items-center gap-2 mt-1">
-              <div class="w-28 sm:w-36 h-2 bg-slate-800 rounded-full overflow-hidden">
-                <div id="xpBar" class="h-full bg-gradient-to-r from-amber-400 to-emerald-400 transition-all duration-300" style="width: 0%"></div>
-              </div>
-              <span id="xpText" class="text-xs font-bold text-amber-300">0 XP</span>
+            <div class="flex items-center gap-2">
+              <span id="rankTitle" class="text-xs sm:text-sm font-bold text-white">Palmetto Recruit</span>
+              <span id="xpText" class="text-xs font-extrabold text-amber-300">0 XP</span>
+            </div>
+            <div class="w-36 sm:w-44 h-1.5 bg-slate-800 rounded-full overflow-hidden mt-1">
+              <div id="xpBar" class="h-full bg-gradient-to-r from-amber-400 to-emerald-400 transition-all duration-300" style="width: 0%"></div>
             </div>
           </div>
         </div>
 
-        <button onclick="openQrModal()" class="tap-target px-3.5 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center gap-2 shadow transition">
+        <button onclick="openQrModal()" class="hidden md:flex tap-target px-3.5 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs items-center gap-1.5 shadow transition">
           <span>📱 Share QR</span>
         </button>
       </div>
     </div>
+
+    <!-- PRIMARY NAVIGATION TABS -->
+    <div class="max-w-7xl mx-auto px-4 flex gap-2 border-t border-white/10 pt-1">
+      <button id="tabExplorerBtn" onclick="switchMainTab('explorer')"
+        class="tap-target flex-1 sm:flex-initial px-4 py-2 rounded-t-xl font-bold text-xs sm:text-sm transition bg-white text-slate-900 shadow">
+        🧭 All 50 Hunts
+      </button>
+      <button id="tabPlannerBtn" onclick="switchMainTab('planner')"
+        class="tap-target flex-1 sm:flex-initial px-4 py-2 rounded-t-xl font-bold text-xs sm:text-sm transition bg-white/10 text-teal-100 hover:bg-white/20">
+        🗓️ 2-Night Game Plan
+      </button>
+    </div>
   </header>
 
-  <!-- STICKY FILTER & LOCATION BAR -->
-  <section class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm no-print">
-    <div class="max-w-7xl mx-auto px-4 py-3 space-y-2.5">
-      <!-- Top Row: Search, GPS Sort, Shortlist Pill -->
-      <div class="flex flex-wrap items-center gap-2">
-        <div class="relative flex-1 min-w-[200px]">
-          <input id="searchInput" type="search" oninput="renderHunts()" placeholder="Search hunts, clues, sharks teeth, forts..."
-            class="w-full tap-target pl-9 pr-4 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600" />
-          <span class="absolute left-3 top-2.5 text-slate-400">🔍</span>
+  <!-- ULTRA-SLIM STICKY CONTROL BAR (Takes minimal vertical space on phone!) -->
+  <section id="explorerFilterSection" class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2">
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <!-- Compact Search -->
+        <div class="relative flex-1 min-w-0">
+          <input id="searchInput" type="search" oninput="renderHunts()" placeholder="Search 50 hunts (shark, fort, pirate)..."
+            class="w-full tap-target pl-8 pr-3 py-1.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600" />
+          <span class="absolute left-2.5 top-2.5 text-slate-400 text-sm">🔍</span>
         </div>
 
-        <button id="shortlistFilterBtn" onclick="toggleShortlistFilter()" class="tap-target px-3.5 py-2 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 font-semibold text-xs sm:text-sm flex items-center gap-1.5 transition">
-          <span>⭐ Shortlist</span>
-          <span id="shortlistCountBadge" class="px-1.5 py-0.5 text-xs rounded-full bg-amber-200 text-amber-950 font-bold">0</span>
+        <!-- Shortlist Quick Toggle -->
+        <button id="shortlistFilterBtn" onclick="toggleShortlistFilter()" class="tap-target px-2.5 sm:px-3 py-1.5 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 font-bold text-xs flex items-center gap-1 shrink-0 transition" title="Show Shortlisted Hunts">
+          <span>⭐</span>
+          <span id="shortlistCountBadge" class="px-1.5 py-0.2 text-[11px] rounded-full bg-amber-200 text-amber-950 font-extrabold">0</span>
         </button>
 
-        <button onclick="useLiveGps()" class="tap-target px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs sm:text-sm flex items-center gap-1.5 transition">
-          <span>📍 GPS Sort</span>
+        <!-- Live GPS Quick Sort Button -->
+        <button id="gpsQuickBtn" onclick="useLiveGps()" class="tap-target px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs flex items-center gap-1 shrink-0 transition" title="Sort by Live GPS Distance">
+          <span>📍</span>
+          <span class="hidden sm:inline">GPS Sort</span>
         </button>
 
-        <button onclick="useHotelBasecamp()" class="tap-target px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-medium text-xs sm:text-sm transition" title="Reset distance to Hyatt Place Mount Pleasant Towne Centre">
-          <span>🏨 Hotel Dist.</span>
+        <!-- Slide-Out Filter Drawer Trigger Button -->
+        <button onclick="openFilterDrawer()" class="tap-target px-3 sm:px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 shrink-0 shadow-sm transition">
+          <span>🎛️ Filters</span>
+          <span id="activeFilterCountBadge" class="hidden px-1.5 py-0.2 text-[10px] rounded-full bg-teal-400 text-slate-950 font-extrabold">0</span>
         </button>
       </div>
 
-      <!-- Second Row: Dropdown Filters (Cluster, Theme, Time, Cost) -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        <select id="clusterFilter" onchange="renderHunts()" class="tap-target px-3 py-1.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white font-medium text-slate-700">
-          <option value="ALL">🗺️ All Geographic Clusters</option>
+      <!-- Auto-Hiding Active Filter Chips & Compact Status Line -->
+      <div id="activeFilterChipsRow" class="hidden flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2 pb-0.5"></div>
+
+      <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+        <span id="locationStatusText" class="truncate pr-2">📍 Dist. from Hyatt Place Basecamp</span>
+        <span id="resultsCountText" class="font-bold text-slate-700 shrink-0">50 hunts</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE-OUT OFF-CANVAS FILTER & SORT DRAWER -->
+  <div id="filterDrawerBackdrop" onclick="closeFilterDrawer()" class="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-xs hidden transition-opacity no-print"></div>
+
+  <aside id="filterDrawer" class="fixed top-0 right-0 bottom-0 z-50 w-full max-w-sm bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col no-print">
+    <!-- Drawer Header -->
+    <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+      <div>
+        <h2 class="text-base font-extrabold">Filter & Sort Hunts</h2>
+        <p class="text-xs text-teal-200">Customize your Lowcountry search</p>
+      </div>
+      <button onclick="closeFilterDrawer()" class="tap-target w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center font-bold text-lg">✕</button>
+    </div>
+
+    <!-- Drawer Scrollable Controls -->
+    <div class="p-4 overflow-y-auto flex-1 space-y-5">
+      <!-- Location Reference Buttons -->
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Distance Reference Point</label>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="useLiveGps()" class="tap-target px-3 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm">
+            <span>🛰️ Use Phone GPS</span>
+          </button>
+          <button onclick="useHotelBasecamp()" class="tap-target px-3 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-800 font-bold text-xs flex items-center justify-center gap-1.5">
+            <span>🏨 Hyatt Basecamp</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sort By -->
+      <div>
+        <label for="sortSelect" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Sort Hunts By</label>
+        <select id="sortSelect" onchange="renderHunts()" class="w-full tap-target px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white font-semibold text-slate-800">
+          <option value="DISTANCE">📍 Closest Distance First</option>
+          <option value="TIME_ASC">⚡ Shortest Time First</option>
+          <option value="DEFAULT">🔢 Hunt ID Number</option>
+        </select>
+      </div>
+
+      <!-- Geographic Cluster -->
+      <div>
+        <label for="clusterFilter" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Geographic Cluster</label>
+        <select id="clusterFilter" onchange="renderHunts()" class="w-full tap-target px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white font-semibold text-slate-800">
+          <option value="ALL">🗺️ All 6 Areas (Within 1 Hr)</option>
           <option value="Towne Centre & Nearby">🏨 Towne Centre & Nearby</option>
           <option value="Patriots Point & Shem Creek">⚓ Patriots Point & Shem Creek</option>
           <option value="Sullivan's & IOP Beaches">🏖️ Sullivan's & IOP Beaches</option>
@@ -107,8 +177,12 @@
           <option value="West Ashley, James & Johns Island">🌳 West Ashley, James & Johns Isl.</option>
           <option value="North Mt. Pleasant & Backwater">🛶 North Mt. Pleasant & Backwater</option>
         </select>
+      </div>
 
-        <select id="themeFilter" onchange="renderHunts()" class="tap-target px-3 py-1.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white font-medium text-slate-700">
+      <!-- Theme Filter -->
+      <div>
+        <label for="themeFilter" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Mission Theme</label>
+        <select id="themeFilter" onchange="renderHunts()" class="w-full tap-target px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white font-semibold text-slate-800">
           <option value="ALL">🎭 All Themes</option>
           <option value="Historical">📜 Historical</option>
           <option value="Nature">🌿 Nature & Wildlife</option>
@@ -116,77 +190,108 @@
           <option value="Architecture">🏛️ Architecture I-Spy</option>
           <option value="Photo Ops">📸 Photo Challenges</option>
         </select>
+      </div>
 
-        <select id="timeFilter" onchange="renderHunts()" class="tap-target px-3 py-1.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white font-medium text-slate-700">
+      <!-- Max Duration -->
+      <div>
+        <label for="timeFilter" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Estimated Duration</label>
+        <select id="timeFilter" onchange="renderHunts()" class="w-full tap-target px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white font-semibold text-slate-800">
           <option value="ALL">⏱️ Any Duration</option>
-          <option value="45">⚡ Up to 45 mins</option>
-          <option value="60">⏳ Up to 60 mins</option>
-          <option value="90">🧭 Up to 90 mins</option>
+          <option value="30">⚡ Quick (30 mins or less)</option>
+          <option value="45">⏳ Up to 45 mins</option>
+          <option value="60">🧭 Up to 60 mins</option>
+          <option value="90">🥾 Up to 90 mins</option>
         </select>
+      </div>
 
-        <select id="costFilter" onchange="renderHunts()" class="tap-target px-3 py-1.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white font-medium text-slate-700">
+      <!-- Cost Category -->
+      <div>
+        <label for="costFilter" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Admission Cost</label>
+        <select id="costFilter" onchange="renderHunts()" class="w-full tap-target px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white font-semibold text-slate-800">
           <option value="ALL">💵 Any Cost</option>
           <option value="Free">🆓 Free Only</option>
           <option value="Under $20">💲 Free or Under $20</option>
         </select>
       </div>
-
-      <!-- Status Bar -->
-      <div class="flex items-center justify-between text-xs text-slate-500 pt-0.5">
-        <span id="locationStatusText">📍 Distances measured from Hyatt Place Mount Pleasant Towne Centre</span>
-        <span id="resultsCountText" class="font-semibold text-slate-700">Showing 30 hunts</span>
-      </div>
     </div>
-  </section>
 
-  <!-- MAIN HUNTS GRID -->
-  <main class="max-w-7xl mx-auto w-full px-4 py-6 flex-1 no-print">
-    <div id="huntsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+    <!-- Drawer Sticky Footer -->
+    <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center gap-2">
+      <button onclick="resetAllFilters()" class="tap-target px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm">
+        Reset All
+      </button>
+      <button id="drawerApplyBtn" onclick="closeFilterDrawer()" class="tap-target flex-1 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs sm:text-sm shadow">
+        Apply & View Hunts
+      </button>
+    </div>
+  </aside>
+
+  <!-- VIEW 1: MAIN HUNTS GRID (EXPLORER) -->
+  <main id="explorerMainView" class="max-w-7xl mx-auto w-full px-3 sm:px-4 py-4 flex-1 no-print">
+    <div id="huntsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4"></div>
+  </main>
+
+  <!-- VIEW 2: 2-NIGHT TRIP GAME PLAN (CLUSTERED ITINERARY) -->
+  <main id="plannerMainView" class="max-w-7xl mx-auto w-full px-3 sm:px-4 py-5 flex-1 hidden no-print space-y-5">
+    <div class="bg-gradient-to-br from-teal-900 to-slate-900 text-white rounded-3xl p-5 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-amber-400 text-slate-950">Smart Cluster Strategy</span>
+        <h2 class="text-xl sm:text-2xl font-extrabold mt-1">Your 2-Night Lowcountry Game Plan</h2>
+        <p class="text-xs sm:text-sm text-teal-100 mt-1 max-w-2xl">
+          Built around your 4-hour drive and your basecamp at <strong>Hyatt Place Mount Pleasant Towne Centre</strong>. Each block groups nearby quests so you park once and explore without windshield fatigue.
+        </p>
+      </div>
+      <button onclick="switchMainTab('explorer'); if(!shortlistOnly) toggleShortlistFilter();" class="tap-target px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs sm:text-sm whitespace-nowrap shadow">
+        ⭐ View Our Shortlist
+      </button>
+    </div>
+
+    <div id="itineraryBlocksContainer" class="space-y-6"></div>
   </main>
 
   <!-- HUNT DETAIL & MISSION BRIEFING MODAL -->
   <div id="huntModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 no-print">
     <div class="bg-white w-full max-w-2xl rounded-t-3xl sm:rounded-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
       <!-- Modal Header -->
-      <div class="p-4 sm:p-6 bg-slate-900 text-white flex items-start justify-between gap-3">
+      <div class="p-4 sm:p-5 bg-slate-900 text-white flex items-start justify-between gap-3">
         <div>
-          <div class="flex flex-wrap items-center gap-2 mb-1.5">
+          <div class="flex flex-wrap items-center gap-1.5 mb-1">
             <span id="modalThemeBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-teal-400 text-slate-950"></span>
             <span id="modalClusterBadge" class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/15 text-teal-100"></span>
             <span id="modalDistanceBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-400/20 text-amber-300"></span>
           </div>
-          <h2 id="modalTitle" class="text-xl sm:text-2xl font-extrabold"></h2>
+          <h2 id="modalTitle" class="text-lg sm:text-2xl font-extrabold leading-snug"></h2>
         </div>
-        <button onclick="closeHuntModal()" class="tap-target w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xl font-bold">✕</button>
+        <button onclick="closeHuntModal()" class="tap-target w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-lg font-bold shrink-0">✕</button>
       </div>
 
       <!-- Modal Scrollable Content -->
-      <div class="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1">
-        <p id="modalSummary" class="text-slate-700 text-sm sm:text-base leading-relaxed"></p>
+      <div class="p-4 sm:p-5 overflow-y-auto space-y-4 flex-1">
+        <p id="modalSummary" class="text-slate-700 text-xs sm:text-sm leading-relaxed"></p>
 
         <!-- Quick Meta Grid -->
-        <div class="grid grid-cols-3 gap-2 bg-slate-100 p-3 rounded-2xl text-center">
+        <div class="grid grid-cols-3 gap-2 bg-slate-100 p-2.5 rounded-2xl text-center">
           <div>
-            <div class="text-[11px] uppercase text-slate-500 font-semibold">Est. Time</div>
-            <div id="modalTime" class="text-sm font-bold text-slate-900 mt-0.5"></div>
+            <div class="text-[10px] uppercase text-slate-500 font-semibold">Est. Time</div>
+            <div id="modalTime" class="text-xs sm:text-sm font-bold text-slate-900 mt-0.5"></div>
           </div>
           <div class="border-x border-slate-200">
-            <div class="text-[11px] uppercase text-slate-500 font-semibold">Est. Cost</div>
-            <div id="modalCost" class="text-sm font-bold text-slate-900 mt-0.5"></div>
+            <div class="text-[10px] uppercase text-slate-500 font-semibold">Est. Cost</div>
+            <div id="modalCost" class="text-xs sm:text-sm font-bold text-slate-900 mt-0.5"></div>
           </div>
           <div>
-            <div class="text-[11px] uppercase text-slate-500 font-semibold">Mission XP</div>
-            <div id="modalXp" class="text-sm font-bold text-teal-700 mt-0.5"></div>
+            <div class="text-[10px] uppercase text-slate-500 font-semibold">Mission XP</div>
+            <div id="modalXp" class="text-xs sm:text-sm font-bold text-teal-700 mt-0.5"></div>
           </div>
         </div>
 
         <!-- Secret Agent Audio Briefing Controls & Shortlist Row -->
         <div class="flex flex-wrap items-center gap-2">
-          <button id="audioBriefingBtn" onclick="toggleAudioBriefing()" class="tap-target flex-1 px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition">
-            <span>🔊 Play Secret Agent Briefing</span>
+          <button id="audioBriefingBtn" onclick="toggleAudioBriefing()" class="tap-target flex-1 px-3.5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-sm transition">
+            <span>🔊 Secret Agent Briefing</span>
           </button>
 
-          <button id="modalShortlistBtn" onclick="toggleCurrentHuntShortlist()" class="tap-target px-4 py-2.5 rounded-xl border border-slate-300 font-bold text-sm flex items-center justify-center gap-1.5 transition">
+          <button id="modalShortlistBtn" onclick="toggleCurrentHuntShortlist()" class="tap-target px-3.5 py-2 rounded-xl border border-slate-300 font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition">
             <span>⭐ Shortlist</span>
           </button>
         </div>
@@ -194,28 +299,28 @@
         <!-- Interactive Clues Checklist -->
         <div>
           <div class="flex items-center justify-between mb-2">
-            <h3 class="font-bold text-slate-900 text-base">Field Objectives (+25 XP each, +50 XP Completion Bonus)</h3>
+            <h3 class="font-bold text-slate-900 text-sm sm:text-base">Field Objectives (+25 XP each)</h3>
             <span id="modalProgressText" class="text-xs font-bold text-teal-700"></span>
           </div>
-          <div id="modalCluesList" class="space-y-2.5"></div>
+          <div id="modalCluesList" class="space-y-2"></div>
         </div>
 
         <!-- Synced Family Field Notes -->
         <div>
-          <label for="modalNotesInput" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Family Field Notes (Synced to Cloud)</label>
+          <label for="modalNotesInput" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Family Field Notes (Synced to Cloud)</label>
           <textarea id="modalNotesInput" rows="2" onchange="saveCurrentHuntNote()" placeholder="Jot down parking tips, favorite finds, or scores..."
-            class="w-full p-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600"></textarea>
+            class="w-full p-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-teal-600"></textarea>
         </div>
       </div>
 
       <!-- Modal Footer Actions -->
-      <div class="p-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
+      <div class="p-3.5 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
         <a id="modalMapsLink" href="#" target="_blank" rel="noopener noreferrer"
-          class="tap-target flex-1 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm text-center flex items-center justify-center gap-2 shadow">
-          <span>🗺️ Navigate to Start (Google Maps)</span>
+          class="tap-target flex-1 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs sm:text-sm text-center flex items-center justify-center gap-1.5 shadow">
+          <span>🗺️ Start in Google Maps</span>
         </a>
-        <button onclick="printCurrentHunt()" class="tap-target px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm flex items-center gap-1.5">
-          <span>🖨️ Printable PDF</span>
+        <button onclick="printCurrentHunt()" class="tap-target px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5">
+          <span>🖨️ Print PDF</span>
         </button>
       </div>
     </div>
@@ -268,14 +373,60 @@
     const SUPABASE_URL = 'https://apgfskdxexlyyavmhdlg.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_rvwuan8wg1tyegGFSt2jMA_E1CJaM5L';
     const SHARE_APP_URL = 'https://schuler314.github.io/Charleston-Scavenger-Hunt/';
-    const HOTEL_BASECAMP = { lat: 32.8335, lng: -79.8256, label: 'Hyatt Place Mount Pleasant Towne Centre' };
+    const HOTEL_BASECAMP = { lat: 32.8335, lng: -79.8256, label: 'Hyatt Place Basecamp' };
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
       db: { schema: 'CharlesScav' }
     });
 
     // ============================================================================
-    // 2. APPLICATION STATE (Local Storage + Cloud Sync)
+    // 2. CURATED 2-NIGHT TRIP ITINERARY BLOCKS
+    // ============================================================================
+    const GAME_PLAN_BLOCKS = [
+      {
+        id: 'block_night1',
+        badge: 'Night 1 • Arrival & Sunset',
+        title: 'Basecamp Warm-Up & Shem Creek Dolphin Patrol',
+        driveNote: '0 to 12 mins from Hyatt Place • Low driving after your 4-hour trip',
+        strategy: 'Shake off the drive right outside the hotel lobby, explore a hidden historic farm 2 minutes away, then head to Shem Creek for boardwalk dolphins, shrimp boats, and waterfront dinner.',
+        huntIds: ['hunt_30', 'hunt_06', 'hunt_02', 'hunt_07', 'hunt_37']
+      },
+      {
+        id: 'block_day2_am',
+        badge: 'Day 2 • Morning Tactical Block',
+        title: 'Aircraft Carrier, Huey Helicopters & Ravenel Bridge',
+        driveNote: '12 mins from Hyatt Place • Park at Patriots Point / Waterfront Park',
+        strategy: 'Hit the high-energy military and harbor quests in the morning while temperatures are cool. Board the USS Yorktown, cross the Vietnam rope bridge, and inspect the giant bridge towers.',
+        huntIds: ['hunt_01', 'hunt_38', 'hunt_09', 'hunt_08', 'hunt_36']
+      },
+      {
+        id: 'block_day2_pm',
+        badge: 'Day 2 • Afternoon Walkable Peninsula Loop',
+        title: 'Pirates, Secret Alleys, Iron Animals & Pineapple Fountain',
+        driveNote: '18 mins from Hyatt Place • Park once near Market or Concord St.',
+        strategy: 'Park once downtown and link these historic quests on foot. Weave through the City Market, hidden cobblestone dueling alleys, Philip Simmons animal gates, Rainbow Row, and The Battery.',
+        huntIds: ['hunt_15', 'hunt_04', 'hunt_16', 'hunt_17', 'hunt_10', 'hunt_43']
+      },
+      {
+        id: 'block_day2_eve',
+        badge: 'Day 2 • Late Afternoon / Golden Hour Island Run',
+        title: 'Fort Moultrie Bunkers, Sharks Teeth & Submarine Inlet',
+        driveNote: '14 mins from Hyatt Place • Easy loop across Sullivan\'s Island & IOP',
+        strategy: 'Cruise out to the barrier islands for underground WWII artillery bunkers, a public library built inside a gun battery, triangular lighthouse views, and beachcombing.',
+        huntIds: ['hunt_03', 'hunt_40', 'hunt_11', 'hunt_27', 'hunt_12']
+      },
+      {
+        id: 'block_day3_am',
+        badge: 'Day 3 • Checkout Morning Finale',
+        title: 'Fossil Sluicing, Ancient Oaks, or the 1670 Adventure Ship',
+        driveNote: '3 to 22 mins from Hyatt Place • Great before heading home',
+        strategy: 'Before hitting the highway home, pan for shark teeth & play mini-golf 3 minutes from the hotel, walk under Boone Hall\'s 1743 oaks, or board the 1670 replica ship at Charles Towne Landing.',
+        huntIds: ['hunt_31', 'hunt_05', 'hunt_14', 'hunt_13', 'hunt_46']
+      }
+    ];
+
+    // ============================================================================
+    // 3. APPLICATION STATE & SLIDE-OUT DRAWER CONTROLS
     // ============================================================================
     let userLocation = { ...HOTEL_BASECAMP };
     let shortlistOnly = false;
@@ -287,6 +438,56 @@
       field_notes: JSON.parse(localStorage.getItem('cs_field_notes') || '{}'),
       xp_points: 0
     };
+
+    function openFilterDrawer() {
+      document.getElementById('filterDrawerBackdrop').classList.remove('hidden');
+      document.getElementById('filterDrawer').classList.remove('translate-x-full');
+    }
+
+    function closeFilterDrawer() {
+      document.getElementById('filterDrawer').classList.add('translate-x-full');
+      document.getElementById('filterDrawerBackdrop').classList.add('hidden');
+    }
+
+    function resetAllFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('sortSelect').value = 'DISTANCE';
+      document.getElementById('clusterFilter').value = 'ALL';
+      document.getElementById('themeFilter').value = 'ALL';
+      document.getElementById('timeFilter').value = 'ALL';
+      document.getElementById('costFilter').value = 'ALL';
+      if (shortlistOnly) toggleShortlistFilter();
+      renderHunts();
+    }
+
+    function clearSingleFilter(filterId) {
+      document.getElementById(filterId).value = 'ALL';
+      renderHunts();
+    }
+
+    function switchMainTab(tabName) {
+      const explorerBtn = document.getElementById('tabExplorerBtn');
+      const plannerBtn = document.getElementById('tabPlannerBtn');
+      const filterSec = document.getElementById('explorerFilterSection');
+      const explorerView = document.getElementById('explorerMainView');
+      const plannerView = document.getElementById('plannerMainView');
+
+      if (tabName === 'planner') {
+        plannerBtn.className = 'tap-target flex-1 sm:flex-initial px-4 py-2 rounded-t-xl font-bold text-xs sm:text-sm transition bg-white text-slate-900 shadow';
+        explorerBtn.className = 'tap-target flex-1 sm:flex-initial px-4 py-2 rounded-t-xl font-bold text-xs sm:text-sm transition bg-white/10 text-teal-100 hover:bg-white/20';
+        filterSec.classList.add('hidden');
+        explorerView.classList.add('hidden');
+        plannerView.classList.remove('hidden');
+        renderGamePlan();
+      } else {
+        explorerBtn.className = 'tap-target flex-1 sm:flex-initial px-4 py-2 rounded-t-xl font-bold text-xs sm:text-sm transition bg-white text-slate-900 shadow';
+        plannerBtn.className = 'tap-target flex-1 sm:flex-initial px-4 py-2 rounded-t-xl font-bold text-xs sm:text-sm transition bg-white/10 text-teal-100 hover:bg-white/20';
+        filterSec.classList.remove('hidden');
+        explorerView.classList.remove('hidden');
+        plannerView.classList.add('hidden');
+        renderHunts();
+      }
+    }
 
     function setSyncBadge(status, label) {
       const dot = document.getElementById('syncDot');
@@ -313,7 +514,7 @@
           }
         });
         if (completedInHunt === h.clues.length && h.clues.length > 0) {
-          total += 50; // Full hunt mastery bonus
+          total += 50;
         }
       });
       appState.xp_points = total;
@@ -331,7 +532,7 @@
       ];
       const current = ranks.find(r => xp >= r.min && xp <= r.max) || ranks[0];
       const nextMin = current.max + 1;
-      const pct = current.max >= 1000 ? 100 : Math.min(100, Math.round(((xp - current.min) / ( nextMin - current.min )) * 100));
+      const pct = current.max >= 1000 ? 100 : Math.min(100, Math.round(((xp - current.min) / (nextMin - current.min)) * 100));
 
       document.getElementById('rankIcon').textContent = current.icon;
       document.getElementById('rankTitle').textContent = current.title;
@@ -359,13 +560,12 @@
         if (error) throw error;
 
         if (data) {
-          // Merge remote state with local state
           appState.checked_clues = { ...appState.checked_clues, ...(data.checked_clues || {}) };
-          const mergedShortlist = Array.from(new Set([...(appState.shortlist || []), ...(data.shortlist || [])]));
-          appState.shortlist = mergedShortlist;
+          appState.shortlist = Array.from(new Set([...(appState.shortlist || []), ...(data.shortlist || [])]));
           appState.field_notes = { ...appState.field_notes, ...(data.field_notes || {}) };
           saveLocalState();
           renderHunts();
+          renderGamePlan();
           if (activeHuntId) openHuntModal(activeHuntId);
         }
         setSyncBadge('ok', manual ? 'Cloud Synced ✓' : 'Cloud Ready');
@@ -398,7 +598,7 @@
     }
 
     // ============================================================================
-    // 3. DISTANCE CALCULATION (HAVERSINE) & GEOLOCATION
+    // 4. DISTANCE CALCULATION (HAVERSINE) & GEOLOCATION
     // ============================================================================
     function haversineMiles(lat1, lon1, lat2, lon2) {
       const R = 3958.8;
@@ -413,22 +613,24 @@
     function useLiveGps() {
       const statusEl = document.getElementById('locationStatusText');
       if (!navigator.geolocation) {
-        statusEl.textContent = '⚠️ Geolocation not supported by this browser. Using Hotel Basecamp.';
+        statusEl.textContent = '⚠️ GPS not supported. Using Hyatt Basecamp.';
         return;
       }
-      statusEl.textContent = '🛰️ Acquiring live GPS signal from your device...';
+      statusEl.textContent = '🛰️ Getting phone GPS...';
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           userLocation = {
             lat: pos.coords.latitude,
             lng: pos.coords.longitude,
-            label: 'Your Live GPS Location'
+            label: 'Your Live GPS'
           };
-          statusEl.textContent = `📍 Sorted by distance from your Live GPS (${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)})`;
+          document.getElementById('sortSelect').value = 'DISTANCE';
+          statusEl.textContent = `📍 Sorted from your Live GPS (${userLocation.lat.toFixed(3)}, ${userLocation.lng.toFixed(3)})`;
           renderHunts();
+          renderGamePlan();
         },
         (err) => {
-          statusEl.textContent = `⚠️ GPS unavailable (${err.message}). Using Hyatt Place Basecamp.`;
+          statusEl.textContent = `⚠️ GPS unavailable. Using Hyatt Basecamp.`;
           useHotelBasecamp();
         },
         { enableHighAccuracy: true, timeout: 10000 }
@@ -437,21 +639,22 @@
 
     function useHotelBasecamp() {
       userLocation = { ...HOTEL_BASECAMP };
-      document.getElementById('locationStatusText').textContent =
-        '📍 Distances measured from Hyatt Place Mount Pleasant Towne Centre';
+      document.getElementById('sortSelect').value = 'DISTANCE';
+      document.getElementById('locationStatusText').textContent = '📍 Dist. from Hyatt Place Basecamp';
       renderHunts();
+      renderGamePlan();
     }
 
     // ============================================================================
-    // 4. RENDERING & FILTERING
+    // 5. RENDERING EXPLORER GRID, ACTIVE FILTER CHIPS & 2-NIGHT GAME PLAN
     // ============================================================================
     function toggleShortlistFilter() {
       shortlistOnly = !shortlistOnly;
       const btn = document.getElementById('shortlistFilterBtn');
       if (shortlistOnly) {
-        btn.className = 'tap-target px-3.5 py-2 rounded-xl border border-amber-500 bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow transition';
+        btn.className = 'tap-target px-2.5 sm:px-3 py-1.5 rounded-xl border border-amber-500 bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1 shrink-0 shadow transition';
       } else {
-        btn.className = 'tap-target px-3.5 py-2 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 font-semibold text-xs sm:text-sm flex items-center gap-1.5 transition';
+        btn.className = 'tap-target px-2.5 sm:px-3 py-1.5 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 font-bold text-xs flex items-center gap-1 shrink-0 transition';
       }
       renderHunts();
     }
@@ -466,14 +669,103 @@
       }
       pushToSupabase();
       renderHunts();
+      renderGamePlan();
       if (activeHuntId === huntId) updateModalShortlistButton(huntId);
     }
 
+    function shortlistEntireBlock(huntIds) {
+      huntIds.forEach(id => {
+        if (!appState.shortlist.includes(id)) appState.shortlist.push(id);
+      });
+      pushToSupabase();
+      renderHunts();
+      renderGamePlan();
+    }
+
+    function updateFilterBadgesAndChips() {
+      const cluster = document.getElementById('clusterFilter').value;
+      const theme = document.getElementById('themeFilter').value;
+      const maxTime = document.getElementById('timeFilter').value;
+      const cost = document.getElementById('costFilter').value;
+
+      const chips = [];
+      if (cluster !== 'ALL') chips.push({ label: cluster, id: 'clusterFilter' });
+      if (theme !== 'ALL') chips.push({ label: theme, id: 'themeFilter' });
+      if (maxTime !== 'ALL') chips.push({ label: `≤ ${maxTime}m`, id: 'timeFilter' });
+      if (cost !== 'ALL') chips.push({ label: cost, id: 'costFilter' });
+
+      const badge = document.getElementById('activeFilterCountBadge');
+      const chipsRow = document.getElementById('activeFilterChipsRow');
+
+      if (chips.length > 0) {
+        badge.textContent = chips.length;
+        badge.classList.remove('hidden');
+        chipsRow.classList.remove('hidden');
+        chipsRow.innerHTML = chips.map(c => `
+          <button onclick="clearSingleFilter('${c.id}')" class="px-2.5 py-1 rounded-full bg-teal-50 border border-teal-300 text-teal-900 text-[11px] font-bold flex items-center gap-1 shrink-0">
+            <span>${c.label}</span>
+            <span class="text-teal-600 font-extrabold">✕</span>
+          </button>
+        `).join('') + `
+          <button onclick="resetAllFilters()" class="px-2 py-1 text-[11px] font-bold text-rose-600 shrink-0">Clear All</button>
+        `;
+      } else {
+        badge.classList.add('hidden');
+        chipsRow.classList.add('hidden');
+        chipsRow.innerHTML = '';
+      }
+    }
+
+    function createHuntCardHtml(h) {
+      const isStarred = appState.shortlist.includes(h.id);
+      const doneCount = h.clues.filter((_, i) => appState.checked_clues[`${h.id}_${i}`]).length;
+      const allDone = doneCount === h.clues.length;
+      const pct = Math.round((doneCount / h.clues.length) * 100);
+      const dist = haversineMiles(userLocation.lat, userLocation.lng, h.start_lat, h.start_lng);
+
+      return `
+        <article onclick="openHuntModal('${h.id}')" class="bg-white rounded-2xl border ${allDone ? 'border-emerald-500 ring-2 ring-emerald-500/20' : 'border-slate-200'} shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between p-4">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-800 border border-teal-200">${h.theme}</span>
+              <div class="flex items-center gap-1">
+                <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-800">📍 ${dist.toFixed(1)} mi</span>
+                <button onclick="toggleShortlist('${h.id}', event)" class="tap-target w-9 h-9 rounded-xl flex items-center justify-center text-base ${isStarred ? 'bg-amber-100 text-amber-500' : 'bg-slate-100 text-slate-400 hover:text-slate-600'}" title="Toggle Shortlist">
+                  ${isStarred ? '⭐' : '☆'}
+                </button>
+              </div>
+            </div>
+
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">${h.cluster}</div>
+            <h3 class="font-bold text-base text-slate-900 leading-snug mb-1.5">${h.title}</h3>
+            <p class="text-xs text-slate-600 line-clamp-2 mb-3">${h.summary}</p>
+          </div>
+
+          <div class="pt-2.5 border-t border-slate-100 space-y-2">
+            <div class="flex items-center justify-between text-xs text-slate-600 font-medium">
+              <span class="px-2 py-0.5 rounded-lg bg-slate-100">⏱️ ${h.est_time_minutes} min</span>
+              <span class="px-2 py-0.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-200 font-semibold">${h.cost_category}</span>
+              <span class="font-bold ${allDone ? 'text-emerald-600' : 'text-teal-700'}">
+                ${allDone ? '🏆 Done!' : `${doneCount}/${h.clues.length} (${pct}%)`}
+              </span>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
     function renderHunts() {
+      updateFilterBadgesAndChips();
+      const sortMode = document.getElementById('sortSelect').value;
+
       const hunts = (window.CHARLESTON_HUNTS || []).map(h => ({
         ...h,
         distance: haversineMiles(userLocation.lat, userLocation.lng, h.start_lat, h.start_lng)
-      })).sort((a, b) => a.distance - b.distance);
+      })).sort((a, b) => {
+        if (sortMode === 'TIME_ASC') return a.est_time_minutes - b.est_time_minutes;
+        if (sortMode === 'DEFAULT') return a.id.localeCompare(b.id, undefined, { numeric: true });
+        return a.distance - b.distance;
+      });
 
       const query = document.getElementById('searchInput').value.trim().toLowerCase();
       const cluster = document.getElementById('clusterFilter').value;
@@ -495,7 +787,8 @@
         return true;
       });
 
-      document.getElementById('resultsCountText').textContent = `Showing ${filtered.length} of ${hunts.length} hunts`;
+      document.getElementById('resultsCountText').textContent = `${filtered.length} of ${hunts.length} hunts`;
+      document.getElementById('drawerApplyBtn').textContent = `Show ${filtered.length} Hunts`;
 
       const grid = document.getElementById('huntsGrid');
       if (filtered.length === 0) {
@@ -503,54 +796,51 @@
           <div class="col-span-full bg-white rounded-3xl p-8 text-center border border-slate-200">
             <div class="text-3xl mb-2">🧭</div>
             <h3 class="font-bold text-slate-900">No scavenger hunts match those filters</h3>
-            <p class="text-xs text-slate-500 mt-1">Try clearing your search or disabling the Shortlist filter.</p>
+            <p class="text-xs text-slate-500 mt-1 mb-4">Try clearing your search or resetting your active filters.</p>
+            <button onclick="resetAllFilters()" class="tap-target px-4 py-2 rounded-xl bg-teal-600 text-white font-bold text-xs">Reset All Filters</button>
           </div>`;
         return;
       }
 
-      grid.innerHTML = filtered.map(h => {
-        const isStarred = appState.shortlist.includes(h.id);
-        const doneCount = h.clues.filter((_, i) => appState.checked_clues[`${h.id}_${i}`]).length;
-        const allDone = doneCount === h.clues.length;
+      grid.innerHTML = filtered.map(h => createHuntCardHtml(h)).join('');
+    }
 
+    function renderGamePlan() {
+      const huntsMap = {};
+      (window.CHARLESTON_HUNTS || []).forEach(h => { huntsMap[h.id] = h; });
+
+      const container = document.getElementById('itineraryBlocksContainer');
+      container.innerHTML = GAME_PLAN_BLOCKS.map(block => {
+        const blockHunts = block.huntIds.map(id => huntsMap[id]).filter(Boolean);
         return `
-          <article onclick="openHuntModal('${h.id}')" class="bg-white rounded-2xl border ${allDone ? 'border-emerald-500 ring-2 ring-emerald-500/20' : 'border-slate-200'} shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between p-4">
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-800 border border-teal-200">${h.theme}</span>
-                <div class="flex items-center gap-1">
-                  <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-800">📍 ${h.distance.toFixed(1)} mi</span>
-                  <button onclick="toggleShortlist('${h.id}', event)" class="tap-target w-9 h-9 rounded-xl flex items-center justify-center text-lg ${isStarred ? 'bg-amber-100 text-amber-500' : 'bg-slate-100 text-slate-400 hover:text-slate-600'}" title="Toggle Shortlist">
-                    ${isStarred ? '⭐' : '☆'}
-                  </button>
+          <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 sm:p-6 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-teal-100 text-teal-900">${block.badge}</span>
+                  <span class="text-xs font-semibold text-slate-500">🚗 ${block.driveNote}</span>
                 </div>
+                <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1">${block.title}</h3>
+                <p class="text-xs sm:text-sm text-slate-600 mt-0.5">${block.strategy}</p>
               </div>
-
-              <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">${h.cluster}</div>
-              <h3 class="font-bold text-base text-slate-900 leading-snug mb-1.5">${h.title}</h3>
-              <p class="text-xs text-slate-600 line-clamp-2 mb-3">${h.summary}</p>
+              <button onclick='shortlistEntireBlock(${JSON.stringify(block.huntIds)})'
+                class="tap-target px-3.5 py-2 rounded-xl border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold text-xs shrink-0 self-start sm:self-center">
+                ⭐ Shortlist Block (${blockHunts.length})
+              </button>
             </div>
-
-            <div class="pt-3 border-t border-slate-100 space-y-2">
-              <div class="flex items-center justify-between text-xs text-slate-600 font-medium">
-                <span>⏱️ ${h.est_time_minutes} min</span>
-                <span>💵 ${h.cost_category}</span>
-                <span class="font-bold ${allDone ? 'text-emerald-600' : 'text-teal-700'}">
-                  ${allDone ? '🏆 Completed!' : `${doneCount}/${h.clues.length} Clues`}
-                </span>
-              </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+              ${blockHunts.map(h => createHuntCardHtml(h)).join('')}
             </div>
-          </article>
+          </div>
         `;
       }).join('');
     }
 
     // ============================================================================
-    // 5. MODAL, CLUE CHECKING & SECRET AGENT SPEECH SYNTHESIS
+    // 6. MODAL, CLUE CHECKING & SECRET AGENT SPEECH SYNTHESIS
     // ============================================================================
     function openHuntModal(huntId) {
-      const hunts = window.CHARLESTON_HUNTS || [];
-      const h = hunts.find(item => item.id === huntId);
+      const h = (window.CHARLESTON_HUNTS || []).find(item => item.id === huntId);
       if (!h) return;
       activeHuntId = huntId;
       stopAudioBriefing();
@@ -558,12 +848,12 @@
       const dist = haversineMiles(userLocation.lat, userLocation.lng, h.start_lat, h.start_lng);
       document.getElementById('modalThemeBadge').textContent = h.theme;
       document.getElementById('modalClusterBadge').textContent = h.cluster;
-      document.getElementById('modalDistanceBadge').textContent = `📍 ${dist.toFixed(1)} mi away`;
+      document.getElementById('modalDistanceBadge').textContent = `📍 ${dist.toFixed(1)} mi`;
       document.getElementById('modalTitle').textContent = h.title;
       document.getElementById('modalSummary').textContent = h.summary;
       document.getElementById('modalTime').textContent = `${h.est_time_minutes} mins`;
       document.getElementById('modalCost').textContent = h.cost_category;
-      document.getElementById('modalXp').textContent = `+${h.clues.length * 25 + 50} XP Max`;
+      document.getElementById('modalXp').textContent = `+${h.clues.length * 25 + 50} XP`;
       document.getElementById('modalMapsLink').href = h.google_maps_link;
       document.getElementById('modalNotesInput').value = appState.field_notes[h.id] || '';
 
@@ -576,11 +866,11 @@
       const isStarred = appState.shortlist.includes(huntId);
       const btn = document.getElementById('modalShortlistBtn');
       if (isStarred) {
-        btn.className = 'tap-target px-4 py-2.5 rounded-xl border border-amber-500 bg-amber-100 text-amber-900 font-bold text-sm flex items-center justify-center gap-1.5 transition';
+        btn.className = 'tap-target px-3.5 py-2 rounded-xl border border-amber-500 bg-amber-100 text-amber-900 font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition';
         btn.innerHTML = '<span>⭐ Shortlisted</span>';
       } else {
-        btn.className = 'tap-target px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-bold text-sm flex items-center justify-center gap-1.5 transition';
-        btn.innerHTML = '<span>☆ Add to Shortlist</span>';
+        btn.className = 'tap-target px-3.5 py-2 rounded-xl border border-slate-300 text-slate-700 font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition';
+        btn.innerHTML = '<span>☆ Shortlist</span>';
       }
     }
 
@@ -590,7 +880,7 @@
 
     function renderModalClues(h) {
       const doneCount = h.clues.filter((_, i) => appState.checked_clues[`${h.id}_${i}`]).length;
-      document.getElementById('modalProgressText').textContent = `${doneCount} of ${h.clues.length} Complete`;
+      document.getElementById('modalProgressText').textContent = `${doneCount} of ${h.clues.length} Found`;
 
       document.getElementById('modalCluesList').innerHTML = h.clues.map((clue, idx) => {
         const key = `${h.id}_${idx}`;
@@ -598,8 +888,8 @@
         return `
           <label class="tap-target flex items-start gap-3 p-3 rounded-2xl border ${checked ? 'bg-emerald-50/70 border-emerald-300' : 'bg-slate-50 border-slate-200'} cursor-pointer transition">
             <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleClue('${h.id}', ${idx})"
-              class="mt-1 w-5 h-5 rounded text-teal-600 focus:ring-teal-500" />
-            <div class="flex-1 text-sm ${checked ? 'line-through text-slate-400' : 'text-slate-800 font-medium'}">
+              class="mt-0.5 w-5 h-5 rounded text-teal-600 focus:ring-teal-500" />
+            <div class="flex-1 text-xs sm:text-sm ${checked ? 'line-through text-slate-400' : 'text-slate-800 font-medium'}">
               <span class="font-bold text-teal-700">Clue #${idx + 1}:</span> ${clue}
             </div>
           </label>
@@ -618,6 +908,7 @@
       const h = (window.CHARLESTON_HUNTS || []).find(item => item.id === huntId);
       if (h) renderModalClues(h);
       renderHunts();
+      renderGamePlan();
     }
 
     function saveCurrentHuntNote() {
@@ -644,7 +935,7 @@
       const h = (window.CHARLESTON_HUNTS || []).find(item => item.id === activeHuntId);
       if (!h) return;
 
-      const script = `Incoming Lowcountry Field Transmission. Mission: ${h.title}. Category: ${h.theme}. Briefing: ${h.summary}. Your tactical objectives are as follows: ` +
+      const script = `Incoming Lowcountry Field Transmission. Mission: ${h.title}. Briefing: ${h.summary}. Your tactical objectives are: ` +
         h.clues.map((c, i) => `Objective ${i + 1}: ${c}`).join('. ') +
         `. Good luck out there, agents.`;
 
@@ -653,20 +944,18 @@
       utterance.pitch = 0.95;
       utterance.onend = () => stopAudioBriefing();
 
-      document.getElementById('audioBriefingBtn').innerHTML = '<span>⏹️ Stop Audio Briefing</span>';
+      document.getElementById('audioBriefingBtn').innerHTML = '<span>⏹️ Stop Briefing</span>';
       window.speechSynthesis.speak(utterance);
     }
 
     function stopAudioBriefing() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       const btn = document.getElementById('audioBriefingBtn');
-      if (btn) btn.innerHTML = '<span>🔊 Play Secret Agent Briefing</span>';
+      if (btn) btn.innerHTML = '<span>🔊 Secret Agent Briefing</span>';
     }
 
     // ============================================================================
-    // 6. PRINTABLE 8.5x11 WORKSHEET & QR CODE MODAL
+    // 7. PRINTABLE 8.5x11 WORKSHEET & QR CODE MODAL
     // ============================================================================
     function printCurrentHunt() {
       const h = (window.CHARLESTON_HUNTS || []).find(item => item.id === activeHuntId);
@@ -710,10 +999,10 @@
       setTimeout(() => { btn.textContent = '📋 Copy GitHub Pages Link'; }, 2000);
     }
 
-    // Initialize on load
     window.addEventListener('DOMContentLoaded', () => {
       updateGamificationHeader();
       renderHunts();
+      renderGamePlan();
       pullFromSupabase(false);
     });
   </script>
